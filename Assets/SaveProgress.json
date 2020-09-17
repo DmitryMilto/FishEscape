@@ -1,0 +1,32 @@
+{
+  "CompanyLevel1": 3,
+  "CompanyLevel2": 3,
+  "CompanyLevel3": 3,
+  "CompanyLevel4": 3,
+  "CompanyLevel5": 3,
+  "level1": {
+    "Easy": 10,
+    "Middle": 120,
+    "Hard": 30
+  },
+  "level2": {
+    "Easy": 40,
+    "Middle": 50,
+    "Hard": 60
+  },
+  "level3": {
+    "Easy": 480,
+    "Middle": 280,
+    "Hard": 900
+  },
+  "level4": {
+    "Easy": 240,
+    "Middle": 380,
+    "Hard": 300
+  },
+  "level5": {
+    "Easy": 100000,
+    "Middle": 100000050,
+    "Hard": 35698700
+  }
+}
