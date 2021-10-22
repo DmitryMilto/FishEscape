@@ -135,9 +135,9 @@ public class TextController : MonoBehaviour
         }
     }
 
-    ArgumentException: JSON parse error: Missing a name for object member.
+    /*ArgumentException: JSON parse error: Missing a name for object member.
 UnityEngine.JsonUtility.FromJson[Save] (System.String json) (at C:/buildslave/unity/build/artifacts/generated/common/modules/JSONSerialize/JsonUtilityBindings.gen.cs:25)
 TextController.LangLoad() (at Assets/Script/Controller/TextController.cs:78)
-TextController.Awake() (at Assets/Script/Controller/TextController.cs:65)
+TextController.Awake() (at Assets/Script/Controller/TextController.cs:65)*/
 
 }
