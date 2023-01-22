@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishEscape.Fishs.Enum
+namespace FishEscape.Enums.Players
 {
     public enum TypeFish : int
     {

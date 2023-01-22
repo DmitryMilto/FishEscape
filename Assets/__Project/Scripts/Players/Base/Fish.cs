@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using FishEscape.Fishs.Enum;
+using FishEscape.Enums.Players;
 using Sirenix.OdinInspector;
 
 namespace FishEscape.Fishs
