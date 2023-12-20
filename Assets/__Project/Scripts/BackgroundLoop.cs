@@ -11,6 +11,13 @@ public class BackgroundLoop : MonoBehaviour
 
     public float choke;
 
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
+
+    private void Update()
+    {
+        _spriteRenderer.size += new Vector2(choke * Time.deltaTime, 0f); 
+    }
     private void Start()
     {
         _camera = Camera.main;
@@ -55,9 +62,9 @@ public class BackgroundLoop : MonoBehaviour
     }
     private void LateUpdate()
     {
-        foreach (var obj in levels)
-        {
-            RepositionChildObjects(obj);
-        }
+        //foreach (var obj in levels)
+        //{
+        //    RepositionChildObjects(obj);
+        //}
     }
 }

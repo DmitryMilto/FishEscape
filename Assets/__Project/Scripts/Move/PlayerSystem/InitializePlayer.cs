@@ -17,10 +17,10 @@ public class InitializePlayer : MonoBehaviour
 
     private Camera cam;
 
-    Vector2 leftButton => (Vector2)cam.ScreenToWorldPoint(new Vector3(0,0,cam.nearClipPlane));
-    Vector2 lefTop => (Vector2)cam.ScreenToWorldPoint(new Vector3(0, cam.pixelHeight, cam.nearClipPlane));
-    Vector2 rightButton => (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, cam.nearClipPlane));
-    Vector2 reghtTop => (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, cam.nearClipPlane));
+    //Vector2 leftButton => (Vector2)cam.ScreenToWorldPoint(new Vector3(0,0,cam.nearClipPlane));
+    //Vector2 lefTop => (Vector2)cam.ScreenToWorldPoint(new Vector3(0, cam.pixelHeight, cam.nearClipPlane));
+    //Vector2 rightButton => (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, cam.nearClipPlane));
+    //Vector2 reghtTop => (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, cam.nearClipPlane));
 
     private void SetPlayer()
     {
@@ -30,17 +30,17 @@ public class InitializePlayer : MonoBehaviour
     private void Start()
     {
         if(cam == null) cam = Camera.main;
-        Debug.Log($"Wigth {cam.pixelWidth} and Height {cam.pixelHeight}");
+        //Debug.Log($"Wigth {cam.pixelWidth} and Height {cam.pixelHeight}");
 
         var newHalfWidth = cam.pixelWidth * 0.2f;
         var newHalfHeigth = (cam.pixelHeight / 2);
-        Debug.Log($"Wigth {newHalfWidth} and Height {newHalfHeigth}");
+        //Debug.Log($"Wigth {newHalfWidth} and Height {newHalfHeigth}");
         spriteRenderer.transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector3(newHalfWidth, newHalfHeigth, cam.nearClipPlane));
 
         GetComponent<MovePlayer>().speed = player.speed;
 
         spriteRenderer.drawMode = SpriteDrawMode.Sliced;
-        spriteRenderer.transform.localScale = Vector3.one * NewSize();
+        spriteRenderer.transform.localScale = Vector3.one * NewSize(player.sizeFish);
         // spriteRenderer.size = NewSize();
     }
 
