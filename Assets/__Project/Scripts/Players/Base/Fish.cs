@@ -39,7 +39,7 @@ namespace FishEscape.Fishs
         public float sizeFish = 1f;
 
         [BoxGroup("Other Setting")]
-        public bool FlipX = false;
+        public GameObject prefabs;
 
     }
 }

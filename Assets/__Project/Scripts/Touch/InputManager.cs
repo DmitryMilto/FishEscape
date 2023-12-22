@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,6 +31,12 @@ public class InputManager : MonoBehaviour
     {
         touchControl.Touch.TouchPress.started += ctx => StartTouch(ctx);
         touchControl.Touch.TouchPress.canceled += ctx => EndTouch(ctx);
+        touchControl.Touch.TouchPress.performed += ctx => PerformedTouch(ctx);
+    }
+
+    private void PerformedTouch(InputAction.CallbackContext context)
+    {
+        Debug.Log($"{context.phase}");
     }
 
     private void EndTouch(InputAction.CallbackContext context)

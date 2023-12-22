@@ -12,5 +12,10 @@ namespace FishEscape.Fishs
         [Range(1, 4)]
         [GUIColor(0.8f, 0.4f, 0.4f)]
         public int damage = 1;
+
+        [BoxGroup("Other Setting")]
+        [SerializeField]
+        [Range(0f,1f)]
+        public float scale = .1f;
     }
 }
