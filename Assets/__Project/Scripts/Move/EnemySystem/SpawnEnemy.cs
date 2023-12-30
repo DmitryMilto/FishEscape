@@ -17,6 +17,11 @@ public class SpawnEnemy : MonoBehaviour
     [SerializeField] private bool isPause = false;
     [SerializeField] private float secondSpawn = 2f;
 
+    public void SetEnemy(List<EnemyFish> enemies)
+    {
+        if (emenies.Count == 0) return;
+        this.emenies = enemies;
+    }
     private void Start()
     {
         if (prefabsEnemy == null) return;
@@ -44,5 +49,10 @@ public class SpawnEnemy : MonoBehaviour
     private void OnDisable()
     {
         StopCoroutine(coroutine);
+    }
+
+    internal void SetEnemy(object chooseEnemy)
+    {
+        throw new System.NotImplementedException();
     }
 }

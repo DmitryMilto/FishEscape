@@ -7,11 +7,14 @@ public class InputManager : MonoBehaviour
 {
     private ControllerInput touchControl;
 
-    public delegate void StartTouchEvent(Vector2 position, float time);
+    public delegate void StartTouchEvent(bool value);
     public event StartTouchEvent OnStartTouch;
 
-    public delegate void EndTouchEvent(Vector2 position, float time);
+    public delegate void EndTouchEvent(bool value);
     public event EndTouchEvent OnEndTouch;
+
+    public delegate void UpdateTouchEvent(Vector2 position);
+    public event UpdateTouchEvent OnUpdateTouch;
 
     private void Awake()
     {
@@ -27,25 +30,24 @@ public class InputManager : MonoBehaviour
         touchControl.Disable();
     }
 
+    private void FixedUpdate()
+    {
+        if (OnUpdateTouch != null)
+            OnUpdateTouch(touchControl.Touch.TouchPosition.ReadValue<Vector2>());
+    }
     private void Start()
     {
         touchControl.Touch.TouchPress.started += ctx => StartTouch(ctx);
         touchControl.Touch.TouchPress.canceled += ctx => EndTouch(ctx);
-        touchControl.Touch.TouchPress.performed += ctx => PerformedTouch(ctx);
-    }
-
-    private void PerformedTouch(InputAction.CallbackContext context)
-    {
-        Debug.Log($"{context.phase}");
     }
 
     private void EndTouch(InputAction.CallbackContext context)
     {
-        if (OnEndTouch != null) OnEndTouch(touchControl.Touch.TouchPosition.ReadValue<Vector2>(), (float)context.time);
+        if (OnEndTouch != null) OnEndTouch(false);
     }
 
     private void StartTouch(InputAction.CallbackContext context)
     {
-        if (OnStartTouch != null) OnStartTouch(touchControl.Touch.TouchPosition.ReadValue<Vector2>(), (float)context.startTime);
+        if (OnStartTouch != null) OnStartTouch(true);
     }
 }

@@ -22,9 +22,10 @@ public class InitializePlayer : MonoBehaviour
     //Vector2 rightButton => (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, cam.nearClipPlane));
     //Vector2 reghtTop => (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, cam.nearClipPlane));
 
-    private void SetPlayer()
+    public void SetPlayer(PlayerFish fish)
     {
-        if (player == null) return;
+        if (fish == null) return;
+        player = fish;
         spriteRenderer.sprite = player.fish;
     }
     private void Start()
@@ -37,7 +38,7 @@ public class InitializePlayer : MonoBehaviour
         //Debug.Log($"Wigth {newHalfWidth} and Height {newHalfHeigth}");
         spriteRenderer.transform.position = (Vector2)cam.ScreenToWorldPoint(new Vector3(newHalfWidth, newHalfHeigth, cam.nearClipPlane));
 
-        GetComponent<MovePlayer>().speed = player.speed;
+        GetComponentInChildren<MovePlayer>().speed = player.speed;
 
         spriteRenderer.drawMode = SpriteDrawMode.Sliced;
         spriteRenderer.transform.localScale = Vector3.one * NewSize(player.sizeFish);

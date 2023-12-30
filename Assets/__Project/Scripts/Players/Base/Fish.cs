@@ -38,8 +38,15 @@ namespace FishEscape.Fishs
         [Range(0.5f, 10f)]
         public float sizeFish = 1f;
 
-        [BoxGroup("Other Setting")]
-        public GameObject prefabs;
+        //[BoxGroup("Other Setting")]
+        //public GameObject prefabs;
 
+#if UNITY_EDITOR
+        protected void Save()
+        {
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+        }
+#endif
     }
 }

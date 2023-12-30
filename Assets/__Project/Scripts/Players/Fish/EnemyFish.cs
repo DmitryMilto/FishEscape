@@ -1,5 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
+using FishEscape.Enums;
 
 namespace FishEscape.Fishs
 {
@@ -14,8 +16,12 @@ namespace FishEscape.Fishs
         public int damage = 1;
 
         [BoxGroup("Other Setting")]
-        [SerializeField]
         [Range(0f,1f)]
         public float scale = .1f;
+
+        [BoxGroup("Other Setting")]
+        public List<ListBuffer> list;
+        [BoxGroup("Other Setting")]
+        public EnumTypeMove typeMove;
     }
 }

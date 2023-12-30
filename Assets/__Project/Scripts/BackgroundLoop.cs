@@ -1,70 +1,51 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundLoop : MonoBehaviour
 {
-    public GameObject[] levels;
-
-    private Camera _camera;
-    private Vector2 screenBounds;
-
-    public float choke;
+    private PoolMono<InitializingMap> poolObject;
+    [SerializeField] private InitializingMap prefabsMap;
 
     [SerializeField]
-    private SpriteRenderer _spriteRenderer;
+    private int countActiveMap = 3;
+    [SerializeField]
+    private float speed = 0.01f;
+    public float Speed => speed;
 
-    private void Update()
-    {
-        _spriteRenderer.size += new Vector2(choke * Time.deltaTime, 0f); 
-    }
-    private void Start()
-    {
-        _camera = Camera.main;
-        screenBounds = _camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, _camera.transform.position.z));
-        foreach (var level in levels)
-            LoadChildObject(level);
-    }
-    private void LoadChildObject(GameObject obj)
-    {
-        var objWidth = obj.GetComponent<SpriteRenderer>().bounds.size.x - choke;
-        var childsNeeded = (int)Mathf.Ceil(screenBounds.x * 2 / objWidth);
-        GameObject clone = Instantiate(obj) as GameObject;
-        for (var i = 0; i < childsNeeded; i++)
-        {
-            var c = Instantiate(clone) as GameObject;
-            c.transform.SetParent(obj.transform);
-            c.transform.position = new Vector3(objWidth * i, obj.transform.position.y, obj.transform.position.z);
-            c.name = $"{obj.name} {i}";
-        }
-        Destroy(clone);
-        Destroy(obj.GetComponent<SpriteRenderer>());
-    }
+    [ReadOnly]
+    [SerializeField]
+    private List<InitializingMap> activeMap;
 
-    private void RepositionChildObjects(GameObject obj)
+    private Vector3 startPostion = new Vector3(22.9f, 0, 0);
+    private Vector3 increasePositiion = new Vector3(63.8f, 0, 0);
+    private void Awake()
     {
-        Transform[] children = obj.GetComponentsInChildren<Transform>();
-        if (children.Length == 0) return;
-        var firstChild = children[1].gameObject;
-        var lastChild = children[children.Length - 1].gameObject;
+        if (prefabsMap == null) return;
+        poolObject = new PoolMono<InitializingMap>(prefabsMap, countActiveMap, this.transform);
+        CreateMap();
+        CreateMap();
 
-        float halfObjectWidth = lastChild.GetComponent<SpriteRenderer>().bounds.extents.x - choke;
-        if(transform.position.x + screenBounds.x > lastChild.transform.position.x + halfObjectWidth)
-        {
-            firstChild.transform.SetAsLastSibling();
-            firstChild.transform.position = new Vector3(lastChild.transform.position.x + halfObjectWidth * 2, lastChild.transform.position.y, lastChild.transform.position.z);
-        }
-        else if (transform.position.x - screenBounds.x < firstChild.transform.position.x - halfObjectWidth * 2)
-        {
-            lastChild.transform.SetAsFirstSibling();
-            lastChild.transform.position = new Vector3(firstChild.transform.position.x - halfObjectWidth * 2, firstChild.transform.position.y, firstChild.transform.position.z);
-        }
     }
-    private void LateUpdate()
+    [Button]
+    public void CreateMap()
     {
-        //foreach (var obj in levels)
-        //{
-        //    RepositionChildObjects(obj);
-        //}
+        var map = this.poolObject.GetFreeElement();
+        if(map == null) return;
+        if (activeMap.Count == 0)
+        {
+            map.transform.position = startPostion;
+        }
+        else
+        {
+            map.transform.position = activeMap[activeMap.Count - 1].transform.position + increasePositiion;
+        }
+        activeMap.Add(map);
+        map.gameObject.SetActive(true);
+    }
+    public void RemoveActiveMap(InitializingMap map)
+    {
+        activeMap.Remove(map);
     }
 }
