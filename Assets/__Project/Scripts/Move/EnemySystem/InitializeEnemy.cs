@@ -8,10 +8,6 @@ public class InitializeEnemy : MonoBehaviour
     [SerializeField] private EnemyFish enemy;
 
     private EnemyMono enemyMono;
-    private void InitNull()
-    {
-        if (enemy == null) return;
-    }
 
     public void Init(EnemyFish enemy)
     {

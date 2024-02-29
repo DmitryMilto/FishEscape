@@ -1,39 +1,20 @@
 using DG.Tweening;
+using Scripts.Buffer;
 using System.Collections;
 using UnityEngine;
 
-public class ScalerFish : MonoBehaviour
+public class ScalerFish : BaseBuffer, IBuffer
 {
     private Camera cam
     {
         get => Camera.main;
     }
-    private float sizeFish => GetComponent<EnemyMono>().Size;
-    private Sprite sprite => GetComponent<EnemyMono>().Sprite;
+    
+    private float sizeFish => Enemy.Size;
+    private Sprite sprite => Enemy.Sprite;
 
     private float scale = 0.2f;
-    private IEnumerator coroutine;
-    private void OnEnable()
-    {
-        coroutine = Scale();
-        StartCoroutine(coroutine);
-    }
-    private void OnDisable()
-    {
-        this.transform.DOKill();
-        StopCoroutine(coroutine);
-        Destroy(this);
-    }
-    private IEnumerator Scale()
-    {
-        while (true)
-        {
-            SetScale(scale);
-            yield return new WaitForSeconds(.5f);
-            SetScale(0f);
-            yield return new WaitForSeconds(.5f);
-        }
-    }
+    
     private float NewSize
     {
         get
@@ -54,8 +35,24 @@ public class ScalerFish : MonoBehaviour
         }
     }
 
-    private void SetScale(float value)
+    public override IBuffer buffer => this;
+
+    public IEnumerator UpdateBuffer()
     {
-        this.transform.DOScale(NewSize + value, .5f).SetEase(Ease.Linear);
+        while (true)
+        {
+            SetBuffer(scale);
+            yield return new WaitForSeconds(time);
+            SetBuffer(0f);
+            yield return new WaitForSeconds(time);
+        }
+    }
+    public void SetBuffer(float value)
+    {
+        this.transform.DOScale(NewSize + value, time).SetEase(Ease.Linear);
+    }
+    public void ResetBuffer()
+    {
+        this.transform.DOScale(NewSize, .1f).SetEase(Ease.Linear);
     }
 }

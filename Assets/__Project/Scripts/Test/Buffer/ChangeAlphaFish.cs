@@ -1,38 +1,29 @@
 using DG.Tweening;
+using Scripts.Buffer;
 using System.Collections;
 using UnityEngine;
 
-public class ChangeAlphaFish : MonoBehaviour
+public class ChangeAlphaFish : BaseBuffer, IBuffer
 {
+    public override IBuffer buffer => this;
+    private SpriteRenderer sprite => Enemy.Fish;
 
-    private SpriteRenderer sprite => GetComponent<EnemyMono>().Fish;
-
-    private float time = 0.5f;
-    private IEnumerator coroutine;
-    private void OnEnable()
-    {
-        coroutine = Scale();
-        StartCoroutine(coroutine);
-    }
-    private void OnDisable()
-    {
-        this.transform.DOKill();
-        StopCoroutine(coroutine);
-        Destroy(this);
-    }
-    private IEnumerator Scale()
+    public IEnumerator UpdateBuffer()
     {
         while (true)
         {
-            SetFlashColor(0f);
+            SetBuffer(0f);
             yield return new WaitForSeconds(time);
-            SetFlashColor(1f);
+            SetBuffer(1f);
             yield return new WaitForSeconds(time);
         }
     }
-
-    private void SetFlashColor(float value)
+    public void SetBuffer(float value)
     {
         sprite.DOFade(value, time).SetEase(Ease.Linear);
+    }
+    public void ResetBuffer()
+    {
+        sprite.DOFade(1f, 0.1f);
     }
 }

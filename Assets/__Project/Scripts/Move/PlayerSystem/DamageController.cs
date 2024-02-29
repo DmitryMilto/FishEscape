@@ -3,9 +3,13 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class DamageController : MonoBehaviour
 {
+    [Inject]
+    private HealthSystem healthSystem;
+
     private Camera cam;
 
     [Title("Damage")]
@@ -25,6 +29,7 @@ public class DamageController : MonoBehaviour
         //spriteRenderer.DOFade(0f, 6f);
         if (isDamage)
         {
+            healthSystem.AddDamage();
             coroutine = Damage();
             StartCoroutine(coroutine);
         }

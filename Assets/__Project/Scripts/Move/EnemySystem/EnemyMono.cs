@@ -1,6 +1,7 @@
 using DG.Tweening;
 using FishEscape.Enums;
 using FishEscape.Fishs;
+using Scripts.Buffer;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,10 +50,22 @@ public class EnemyMono : MonoBehaviour
 
         foreach (var buffer in fish.list)
         {
-            if (buffer != ListBuffer.None)
-                this.gameObject.AddComponent(System.Type.GetType(buffer.ToString()));
+                InitializeBuffer(buffer);
         }
         move = ChooseTypeMove(fish.typeMove);
+    }
+    public void InitializeBuffer(ListBuffer buffer)
+    {
+        switch (buffer)
+        {
+            case ListBuffer.ChangeAlphaFish: 
+                this.gameObject.AddComponent<ChangeAlphaFish>();
+                break;
+            case ListBuffer.ScalerFish: 
+                this.gameObject.AddComponent<ScalerFish>(); 
+                break;
+            default: break;
+        }
     }
     private ITypeMove ChooseTypeMove(EnumTypeMove type)
     {
@@ -82,6 +95,7 @@ public class EnemyMono : MonoBehaviour
     private float amplitude = 0.006f;
     [SerializeField]
     private float frequency = 2;
+
     private void FixedUpdate()
     {
         if (this.transform.position.x > endPosition.x)

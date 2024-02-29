@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 
 namespace FishEscape.Fishs
 {
-    public class Fish : ScriptableObject
+    public abstract class Fish : ScriptableObject
     {
         [BoxGroup("Basic Info")]
         [HorizontalGroup("Basic Info/Horizontal")]
@@ -17,8 +17,13 @@ namespace FishEscape.Fishs
         public string fishName;
 
         [VerticalGroup("Basic Info/Horizontal/Vertical")]
-        [SerializeField] 
+        [SerializeField]
         private TypeFish type;
+
+        [VerticalGroup("Basic Info/Horizontal/Vertical")]
+        [SerializeField]
+        private EnumOcean habitat;
+        public EnumOcean Habitat => habitat;
 
         [VerticalGroup("Basic Info/Horizontal/Vertical")]
         [LabelWidth(100)]
@@ -38,14 +43,43 @@ namespace FishEscape.Fishs
         [Range(0.5f, 10f)]
         public float sizeFish = 1f;
 
-        //[BoxGroup("Other Setting")]
-        //public GameObject prefabs;
+        [BoxGroup("Info for Collection")]
+        public Sprite RealPhotoFish;
+
+        [BoxGroup("Info for Collection")]
+        [Multiline(3)]
+        public string Description;
+
+        [Space]
+        public string Key;
+
+        #region Abstract Method
+        public abstract EnumStatusCard StatusCard { get; set; }
+        public abstract void LoadData();
+        public abstract void SaveData();
+        #endregion
 
 #if UNITY_EDITOR
         protected void Save()
         {
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
+        }
+
+        [Button]
+        private void DeleteKeyInformation()
+        {
+            if (PlayerPrefs.HasKey(Key))
+            {
+                Debug.Log($"<color='yellow'>Deleting date {this.Key}...</color>");
+                PlayerPrefs.DeleteKey(Key);
+                if (!PlayerPrefs.HasKey(Key)) Debug.Log($"<color='green'>Date {this.Key} was deleted successfully!</color>");
+                else Debug.Log($"<color='red'>Date {this.Key} has not been deleted!</color>");
+            }
+            else
+            {
+                Debug.Log($"<color='red'>No data {this.Key} found!</color>");
+            }
         }
 #endif
     }

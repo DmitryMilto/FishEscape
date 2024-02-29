@@ -10,6 +10,7 @@ public class InitializePlayer : MonoBehaviour
 {
     [Title("Player")]
     [OnValueChanged("SetPlayer")]
+    
     [SerializeField] private PlayerFish player;
 
     [Title("Other setting")]

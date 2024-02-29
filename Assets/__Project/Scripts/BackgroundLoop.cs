@@ -18,7 +18,7 @@ public class BackgroundLoop : MonoBehaviour
     [SerializeField]
     private List<InitializingMap> activeMap;
 
-    private Vector3 startPostion = new Vector3(22.9f, 0, 0);
+    private Vector3 startPostion = new Vector3(20.9f, 0, 0);
     private Vector3 increasePositiion = new Vector3(63.8f, 0, 0);
     private void Awake()
     {

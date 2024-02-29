@@ -2,6 +2,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class MovePlayer : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class MovePlayer : MonoBehaviour
 
     [ReadOnly]
     public float speed;
+
+    [Inject]
+    private SpeedSystem speedSystem;
     private void Move(Vector2 pos)
     {
         player.transform.DOKill();
@@ -22,12 +26,20 @@ public class MovePlayer : MonoBehaviour
         manager.OnStartTouch += SwipeStart;
         manager.OnEndTouch += SwipeEnd;
         manager.OnUpdateTouch += SwipeUpdate;
+        speedSystem.onSpeedEvent += SpeedUpdate;
+
+        this.speed = speedSystem.speed;
     }
     private void OnDisable()
     {
         manager.OnStartTouch -= SwipeStart;
         manager.OnEndTouch -= SwipeEnd;
         manager.OnUpdateTouch -= SwipeUpdate;
+        speedSystem.onSpeedEvent -= SpeedUpdate;
+    }
+    private void SpeedUpdate()
+    {
+        this.speed = speedSystem.speed;
     }
 
     private bool isMove = false;

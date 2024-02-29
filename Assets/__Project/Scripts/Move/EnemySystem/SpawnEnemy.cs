@@ -2,10 +2,11 @@ using FishEscape.Fishs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class SpawnEnemy : MonoBehaviour
 {
-    [SerializeField] private List<EnemyFish> emenies;
+    [SerializeField] private List<EnemyFish> enemies;
 
     private PoolMono<InitializeEnemy> poolObject;
     [SerializeField] private InitializeEnemy prefabsEnemy;
@@ -19,8 +20,8 @@ public class SpawnEnemy : MonoBehaviour
 
     public void SetEnemy(List<EnemyFish> enemies)
     {
-        if (emenies.Count == 0) return;
-        this.emenies = enemies;
+        if (enemies.Count == 0) return;
+        this.enemies = enemies;
     }
     private void Start()
     {
@@ -41,7 +42,7 @@ public class SpawnEnemy : MonoBehaviour
     private void Enemy()
     {
         var enemy = this.poolObject.GetFreeElement();
-        var rand = emenies[Random.Range(0, emenies.Count)];
+        var rand = enemies[Random.Range(0, enemies.Count)];
         enemy.Init(rand);
         enemy.gameObject.SetActive(true);
     }
@@ -49,10 +50,5 @@ public class SpawnEnemy : MonoBehaviour
     private void OnDisable()
     {
         StopCoroutine(coroutine);
-    }
-
-    internal void SetEnemy(object chooseEnemy)
-    {
-        throw new System.NotImplementedException();
     }
 }
