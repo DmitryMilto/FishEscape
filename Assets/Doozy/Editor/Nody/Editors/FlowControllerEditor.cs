@@ -217,7 +217,7 @@ namespace Doozy.Editor.Nody.Editors
                             field.SetTooltip($"{prefix} - Disabled (does nothing)");
                             break;
                         case ControllerBehaviour.StartFlow:
-                            field.SetTooltip($"{prefix} - Start or Restart or Resume (if paused) the flow graph");
+                            field.SetTooltip($"{prefix} - UpdateScale or Restart or Resume (if paused) the flow graph");
                             break;
                         case ControllerBehaviour.RestartFlow:
                             field.SetTooltip($"{prefix} - Restart the flow graph (even if it's paused or running)");

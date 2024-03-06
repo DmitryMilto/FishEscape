@@ -481,7 +481,7 @@ namespace Doozy.Editor.UIManager.Editors.Containers.Internal
                         });
 
                 FluidField customStartPositionFluidField =
-                    FluidField.Get("Custom Start Position")
+                    FluidField.Get("Custom UpdateScale Position")
                         .AddFieldContent
                         (
                             DesignUtils.row

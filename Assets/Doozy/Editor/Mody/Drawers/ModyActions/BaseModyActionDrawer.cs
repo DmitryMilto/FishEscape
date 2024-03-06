@@ -346,7 +346,7 @@ namespace Doozy.Editor.Mody.Drawers.ModyActions
                 property,
                 "ActionStartDelay",
                 startDelayColor,
-                "Start Delay",
+                "UpdateScale Delay",
                 "Time interval before the Action executes its task, after it started running",
                 EditorSpriteSheets.EditorUI.Icons.StartDelay
             );
@@ -369,7 +369,7 @@ namespace Doozy.Editor.Mody.Drawers.ModyActions
                 "ActionCooldown",
                 cooldownColor,
                 "Cooldown",
-                "Cooldown time after the Action ran. During this time, the Action cannot Start running again",
+                "Cooldown time after the Action ran. During this time, the Action cannot UpdateScale running again",
                 EditorSpriteSheets.EditorUI.Icons.Cooldown
             );
 

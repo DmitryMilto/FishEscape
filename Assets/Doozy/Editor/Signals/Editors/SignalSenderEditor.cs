@@ -89,7 +89,7 @@ namespace Doozy.Editor.Signals.Editors
 
             sendOnStartSwitch =
                 FluidToggleSwitch.Get("OnStart")
-                    .SetTooltip("Automatically send a signal on Start")
+                    .SetTooltip("Automatically send a signal on UpdateScale")
                     .SetToggleAccentColor(selectableAccentColor)
                     .BindToProperty(propertySendOnStart);
 

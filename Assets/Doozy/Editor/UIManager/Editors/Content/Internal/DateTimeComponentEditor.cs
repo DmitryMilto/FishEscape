@@ -86,16 +86,16 @@ namespace Doozy.Editor.UIManager.Editors.Content.Internal
 
             return container
                 .AddChild(DesignUtils.flexibleSpace)
-                .AddChild(GetButton("Start", () =>
+                .AddChild(GetButton("UpdateScale", () =>
                 {
                     if (!castedDateTimeComponent.isActiveAndEnabled)
                     {
-                        EditorUtility.DisplayDialog("Cannot Start", $"The {castedDateTimeComponent.name} is not active and enabled", "Ok");
+                        EditorUtility.DisplayDialog("Cannot UpdateScale", $"The {castedDateTimeComponent.name} is not active and enabled", "Ok");
                         return;
                     }
                     if(castedDateTimeComponent.isRunning & !castedDateTimeComponent.isPaused)
                     {
-                        EditorUtility.DisplayDialog("Cannot Start", $"The {castedDateTimeComponent.name} is already running", "Ok");
+                        EditorUtility.DisplayDialog("Cannot UpdateScale", $"The {castedDateTimeComponent.name} is already running", "Ok");
                         return;
                     }
                     
@@ -445,7 +445,7 @@ namespace Doozy.Editor.UIManager.Editors.Content.Internal
         protected VisualElement GetBehaviours()
         {
             return DesignUtils.row
-                .AddChild(FluidField.Get<EnumField>(propertyOnStartBehaviour, "On Start Behaviour"))
+                .AddChild(FluidField.Get<EnumField>(propertyOnStartBehaviour, "On UpdateScale Behaviour"))
                 .AddSpaceBlock()
                 .AddChild(FluidField.Get<EnumField>(propertyOnEnableBehaviour, "OnEnable Behaviour"))
                 .AddSpaceBlock()

@@ -167,7 +167,7 @@ namespace Doozy.Editor.Mody.Components
                     cooldownProgressBar.SetAtZero();
                     
                     startDelayProgressBar.SetDuration(action.startDelay);
-                    startDelayProgressBar.reaction.SetOnUpdateCallback(() => stateNameLabel.SetText(ReactionDurationLabel("Start Delay", startDelayProgressBar.reaction)));
+                    startDelayProgressBar.reaction.SetOnUpdateCallback(() => stateNameLabel.SetText(ReactionDurationLabel("UpdateScale Delay", startDelayProgressBar.reaction)));
                     startDelayProgressBar.reaction.SetOnStopCallback(() =>
                     {
                         startDelayProgressBar.reaction.ClearOnUpdateCallback();
@@ -230,7 +230,7 @@ namespace Doozy.Editor.Mody.Components
                     stateNameLabel.SetStyleColor(idleColor);
                     break;
                 case ActionState.InStartDelay:
-                    stateNameLabel.SetText("Start Delay");
+                    stateNameLabel.SetText("UpdateScale Delay");
                     stateNameLabel.SetStyleColor(startDelayColor);
                     break;
                 case ActionState.IsRunning:

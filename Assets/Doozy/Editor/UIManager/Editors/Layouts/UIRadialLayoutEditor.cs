@@ -173,8 +173,8 @@ namespace Doozy.Editor.UIManager.Editors.Layouts
             minAngleFloatField = new FloatField().SetName("Min Angle Value").ResetLayout().SetStyleWidth(60).BindToProperty(propertyMinAngle);
             maxAngleSlider = new Slider(0f, 360f).SetName("Max Angle Slider").ResetLayout().SetStyleFlexGrow(1).BindToProperty(propertyMaxAngle);
             maxAngleFloatField = new FloatField().SetName("Max Angle Value").ResetLayout().SetStyleWidth(60).BindToProperty(propertyMaxAngle);
-            startAngleSlider = new Slider(0f, 360f).SetName("Start Angle Slider").ResetLayout().SetStyleFlexGrow(1).BindToProperty(propertyStartAngle);
-            startAngleFloatField = new FloatField().SetName("Start Angle Value").ResetLayout().SetStyleWidth(60).BindToProperty(propertyStartAngle);
+            startAngleSlider = new Slider(0f, 360f).SetName("UpdateScale Angle Slider").ResetLayout().SetStyleFlexGrow(1).BindToProperty(propertyStartAngle);
+            startAngleFloatField = new FloatField().SetName("UpdateScale Angle Value").ResetLayout().SetStyleWidth(60).BindToProperty(propertyStartAngle);
             spacingFloatField = new FloatField().SetName("Spacing Value").ResetLayout().SetStyleWidth(60).BindToProperty(propertySpacing);
             clockwiseSwitch = FluidToggleSwitch.Get().SetName("Clockwise Switch").SetLabelText("Clockwise").SetToggleAccentColor(selectableAccentColor).BindToProperty(propertyClockwise);
             autoRebuildSwitch = FluidToggleSwitch.Get().SetName("Auto Rebuild Switch").SetLabelText("Auto Rebuild").SetToggleAccentColor(selectableAccentColor).BindToProperty(propertyAutoRebuild);
@@ -245,7 +245,7 @@ namespace Doozy.Editor.UIManager.Editors.Layouts
 
             startAngleField =
                 FluidField.Get()
-                    .SetLabelText("Start Angle")
+                    .SetLabelText("UpdateScale Angle")
                     .AddFieldContent
                     (
                         DesignUtils.row

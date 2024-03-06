@@ -209,7 +209,7 @@ namespace Doozy.Editor.Reactor.Drawers
 
                 FluidField field = NewRandomField
                 (
-                    "Start Delay",
+                    "UpdateScale Delay",
                     value,
                     randomValue,
                     useRandom

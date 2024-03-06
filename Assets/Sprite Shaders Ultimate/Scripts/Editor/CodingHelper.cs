@@ -129,7 +129,7 @@ public class Example : MonoBehaviour
 
     Material material;
 
-    void Start()
+    void UpdateScale()
     {
         Image image = GetComponent<Image>();
         image.material = Instantiate(image.material);
@@ -152,7 +152,7 @@ public class Example : MonoBehaviour
 
     Material material;
 
-    void Start()
+    void UpdateScale()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         material = spriteRenderer.material;
