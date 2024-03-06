@@ -20,6 +20,8 @@ public class EnemyMono : MonoBehaviour
             return sprite;
         }
     }
+
+    public BubbleScale scaleFish { get; private set; }
     public Sprite Sprite => Fish.sprite;
 
     [ReadOnly]
@@ -38,6 +40,8 @@ public class EnemyMono : MonoBehaviour
     //Vector2 rightButton => (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, cam.nearClipPlane));
     //Vector2 reghtTop => (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, cam.nearClipPlane));
     private ITypeMove move;
+
+    private List<IBuffer> listBuffer;
     public void Init(EnemyFish fish)
     {
         this.Fish.sprite = fish.fish;
@@ -48,9 +52,13 @@ public class EnemyMono : MonoBehaviour
         polygonCollider = this.gameObject.AddComponent<PolygonCollider2D>();
         polygonCollider.isTrigger = true;
 
+        scaleFish = GetComponent<BubbleScale>();
+        scaleFish.size = sizeFish;
+
         foreach (var buffer in fish.list)
         {
                 InitializeBuffer(buffer);
+            
         }
         move = ChooseTypeMove(fish.typeMove);
     }
@@ -59,10 +67,12 @@ public class EnemyMono : MonoBehaviour
         switch (buffer)
         {
             case ListBuffer.ChangeAlphaFish: 
-                this.gameObject.AddComponent<ChangeAlphaFish>();
+                var alpha = this.gameObject.AddComponent<ChangeAlphaFish>();
+                listBuffer.Add(alpha);
                 break;
-            case ListBuffer.ScalerFish: 
-                this.gameObject.AddComponent<ScalerFish>(); 
+            case ListBuffer.ScalerFish:
+                var scale = this.gameObject.AddComponent<ScalerFish>();
+                listBuffer.Add(scale);
                 break;
             default: break;
         }
@@ -84,8 +94,6 @@ public class EnemyMono : MonoBehaviour
 
     private void OnEnable()
     {
-        cam = Camera.main;
-        Fish.transform.localScale = Vector3.one * NewSize;
         this.transform.position = startPosition;
     }
     private float procent => cam.pixelHeight * 0.3f;
@@ -105,28 +113,8 @@ public class EnemyMono : MonoBehaviour
     }
     private void OnDisable()
     {
-        //this.transform.DOKill();
-        //StopCoroutine(coroutine);
+        this.transform.DOKill();
+        listBuffer.ForEach(x => x.ResetBuffer());
         Destroy(polygonCollider);
-    }
-    private float NewSize
-    {
-        get
-        {
-            // Angle the camera can see above the center.
-            float halfFovRadians = cam.fieldOfView * Mathf.Deg2Rad / 2f;
-
-            // How high is it from top to bottom of the view frustum,
-            // in world space units, at our target depth?
-            float visibleHeightAtDepth = this.sizeFish * Mathf.Tan(halfFovRadians) * 2f;
-
-            // You could also use Sprite.bounds for this.
-            float spriteHeight = Sprite.rect.height
-                               / Sprite.pixelsPerUnit;
-
-            // How many times bigger (or smaller) is the height we want to fill?
-            return visibleHeightAtDepth / spriteHeight;
-        }
-    }
-    
+    }    
 }

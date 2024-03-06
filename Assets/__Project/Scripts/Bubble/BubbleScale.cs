@@ -1,19 +1,18 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class BubbleScale : MonoBehaviour
 {
-    [SerializeField]
-    private float size = 2f;
+    private float _size;
+    public float size { get { return _size; } set { _size = value; UpdateScale(); } }
     private Sprite sprite;
     private Sprite Sprite
     {
         get
         {
-            if(sprite == null)
-                sprite = GetComponent<SpriteRenderer>().sprite;
+            if (sprite == null)
+                sprite = GetComponentInChildren<SpriteRenderer>().sprite;
             return sprite;
         }
     }
@@ -40,7 +39,8 @@ public class BubbleScale : MonoBehaviour
             return visibleHeightAtDepth / spriteHeight;
         }
     }
-    public void Start()
+    [Button]
+    public void UpdateScale()
     {
         this.transform.DOScale(NewSize, .1f).SetEase(Ease.Linear);
     }

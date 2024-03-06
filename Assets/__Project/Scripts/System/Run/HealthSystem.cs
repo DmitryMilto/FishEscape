@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class HealthSystem
 {
     public delegate void AddDamageDelegate();

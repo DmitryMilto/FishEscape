@@ -14,6 +14,9 @@ namespace Scripts.Bonus.Database {
 
         [EnumPaging]
         public T TypeBonus;
+
+        [Range(.5f, 1.5f)]
+        public float scale;
     }
 
 }

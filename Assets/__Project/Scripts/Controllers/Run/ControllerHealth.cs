@@ -31,6 +31,7 @@ public class ControllerHealth : UIViewControllerBase
         _healthSystem.onAddDamage += OnAddDamageChanged;
         _healthSystem.onAddHealth += OnAddHealthChanged;
         CreateHealthCard();
+        this.AutoSizeWindow();
     }
 
     private void CreateHealthCard()
@@ -42,7 +43,7 @@ public class ControllerHealth : UIViewControllerBase
             card.transform.SetParent(container, false);
             ListHealth.Add(card);
         }
-        ActiveCard(_healthSystem.health);
+        InstanceCard(_healthSystem.health);
     }
     [Button]
     private void OnAddDamageChanged()
@@ -68,6 +69,20 @@ public class ControllerHealth : UIViewControllerBase
             {
                 if (ListHealth[i].isActive)
                     ListHealth[i].Damage();
+            }
+        }
+    }
+    private void InstanceCard(int targetHealth)
+    {
+        for (int i = 0; i < ListHealth.Count; i++)
+        {
+            if (i < targetHealth)
+            {
+                ListHealth[i].InstanceShow();
+            }
+            else
+            {
+                ListHealth[i].InstanceHide();
             }
         }
     }

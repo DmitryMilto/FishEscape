@@ -6,7 +6,6 @@ namespace Scripts.Card
 {
     public abstract class CardShader<T> : MonoBehaviour, IShader
     {
-        [SerializeField]
         public Image image { get; protected set; }
 
         [SerializeField]
@@ -32,8 +31,11 @@ namespace Scripts.Card
             var news = Instantiate(Material);
             image.material = news;
         }
+        public abstract void InstanceShow();
+        public abstract void InstanceHide();
         public abstract IEnumerator ResetShader();
         public abstract IEnumerator UpdateShader();
+        public abstract bool isActive();
 
         public void SetActive(bool value)
         {

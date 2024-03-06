@@ -4,12 +4,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class SpawnBonus : BaseSpawnRun<EnumBonus>
 {
+    //[Inject]
+    [SerializeField]
+    private HealthSystem healthSystem;
+    [Inject]
+    [SerializeField]
+    private SpeedSystem speedSystem;
+
     [SerializeField]
     private InitializeBubble prefabs;
-    
+
 
     private PoolMono<InitializeBubble> poolBubble;
     private Coroutine coroutine;
@@ -28,9 +36,12 @@ public class SpawnBonus : BaseSpawnRun<EnumBonus>
             var freeElement = poolBubble.GetFreeElement();
             if (freeElement != null)
             {
-               // freeElement.gameObject.SetActive(true);
-                //freeElement.Initialize(database[0]);
-            } 
+                freeElement.gameObject.SetActive(true);
+                freeElement.Initialize(database[0]);
+
+                freeElement.healthSystem = healthSystem;
+                freeElement.speedSystem = speedSystem;
+            }
             yield return null;
         }
     }

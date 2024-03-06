@@ -10,6 +10,7 @@ namespace FishEscape.Fishs
         [HorizontalGroup("Basic Info/Horizontal")]
         [HideLabel]
         [PreviewField(150)]
+        [OnValueChanged("Update")]
         public Sprite fish;
 
         [VerticalGroup("Basic Info/Horizontal/Vertical")]
@@ -57,6 +58,7 @@ namespace FishEscape.Fishs
         public abstract EnumStatusCard StatusCard { get; set; }
         public abstract void LoadData();
         public abstract void SaveData();
+        public abstract void Update();
         #endregion
 
 #if UNITY_EDITOR

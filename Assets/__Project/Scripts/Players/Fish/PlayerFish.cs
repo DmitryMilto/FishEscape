@@ -99,5 +99,14 @@ namespace FishEscape.Fishs
             var data = JsonUtility.ToJson(saveData);
             PlayerPrefs.SetString(Key, data);
         }
+        public override void Update()
+        {
+            if (this.fish != null)
+            {
+                this.fishName = this.fish.name;
+                var key = this.fish.name.Trim();
+                this.Key = key;
+            }
+        }
     }
 }

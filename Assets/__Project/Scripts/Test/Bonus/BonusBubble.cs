@@ -1,18 +1,20 @@
-using Scripts.Bonus.Database;
 using Scripts.Bonus.Enum;
-using System;
-using Zenject;
 
 public class BonusBubble : BaseBonus<EnumBonus>
 {
-    [Inject]
+    public EnumBonus value { get; private set; }
     private HealthSystem healthSystem;
-    [Inject]
     private SpeedSystem speedSystem;
 
-    public override void Send()
+    public BonusBubble(EnumBonus value, HealthSystem healthSystem, SpeedSystem speedSystem)
     {
-        switch (bonus)
+        this.value = value;
+        this.healthSystem = healthSystem;
+        this.speedSystem = speedSystem;
+    }
+    public void Send()
+    {
+        switch (value)
         {
             case EnumBonus.Health:
                 healthSystem.AddHealth();

@@ -5,7 +5,7 @@ namespace Scripts.Card
 {
     public class CardHealth : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeReference]
         private IShader cardShader;
         public IShader CardShader
         {
@@ -19,11 +19,11 @@ namespace Scripts.Card
             }
         }
         [SerializeField]
-        private bool isactiveCard = true;
+        private bool isActiveCard = true;
         public bool isActive
         {
-            get => isactiveCard;
-            private set => isactiveCard = value;
+            get => isActiveCard;
+            private set => isActiveCard = value;
         }
         public void Damage()
         {
@@ -42,6 +42,17 @@ namespace Scripts.Card
         {
             yield return CardShader.ResetShader();
             isActive = true;
+        }
+
+        public void InstanceShow()
+        {
+            CardShader.InstanceShow();
+            isActive = true;
+        }
+        public void InstanceHide()
+        {
+            CardShader.InstanceHide();
+            isActive = false;
         }
     }
 }
