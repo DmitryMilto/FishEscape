@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class TriggerBase<T> : MonoBehaviour where T : Enum
 {
-    public InitializeBase<T> initialize { get; private set; }
+    public InitializeBase<T> initialize { get; protected set; }
 
     protected virtual void Start()
     {

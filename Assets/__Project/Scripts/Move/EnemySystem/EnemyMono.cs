@@ -31,6 +31,7 @@ public class EnemyMono : MonoBehaviour
     [SerializeField]
     private PolygonCollider2D polygonCollider;
 
+    [SerializeField]
     private Camera cam;
     private float sizeFish;
     public float Size => sizeFish;
@@ -44,6 +45,9 @@ public class EnemyMono : MonoBehaviour
     private List<IBuffer> listBuffer;
     public void Init(EnemyFish fish)
     {
+        cam = Camera.main;
+        this.Fish.DOFade(1f, .1f);
+
         this.Fish.sprite = fish.fish;
         this.speed = speed * 0.01f;
         this.sizeFish = fish.sizeFish;
@@ -55,11 +59,12 @@ public class EnemyMono : MonoBehaviour
         scaleFish = GetComponent<BubbleScale>();
         scaleFish.size = sizeFish;
 
+        listBuffer = new List<IBuffer>();
         foreach (var buffer in fish.list)
         {
                 InitializeBuffer(buffer);
-            
         }
+
         move = ChooseTypeMove(fish.typeMove);
     }
     public void InitializeBuffer(ListBuffer buffer)
@@ -87,10 +92,7 @@ public class EnemyMono : MonoBehaviour
             default: return null;
         }
     }
-    private void Start()
-    {
-        cam = Camera.main;
-    }
+
 
     private void OnEnable()
     {

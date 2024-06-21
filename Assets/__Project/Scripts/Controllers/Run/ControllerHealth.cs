@@ -18,18 +18,20 @@ public class ControllerHealth : UIViewControllerBase
     [SerializeField]
     [ReadOnly]
     private List<CardHealth> ListHealth;
-
+    protected override void Start()
+    {
+        base.Start();
+        _healthSystem.onAddDamage += ActiveCard;
+    }
     protected override void HideCallback()
     {
-        _healthSystem.onAddDamage += OnAddDamageChanged;
-        _healthSystem.onAddHealth += OnAddHealthChanged;
+        //_healthSystem.onAddDamage -= OnAddDamageChanged;
+        //_healthSystem.onAddHealth -= OnAddHealthChanged;
         Clear(container);
     }
 
     protected override void ShowCallback()
     {
-        _healthSystem.onAddDamage += OnAddDamageChanged;
-        _healthSystem.onAddHealth += OnAddHealthChanged;
         CreateHealthCard();
         this.AutoSizeWindow();
     }
@@ -48,16 +50,19 @@ public class ControllerHealth : UIViewControllerBase
     [Button]
     private void OnAddDamageChanged()
     {
+        Debug.Log($"Add Damage {_healthSystem.health}");
         ActiveCard(_healthSystem.health);
     }
     [Button]
     private void OnAddHealthChanged()
     {
+        Debug.Log($"Ok HP {_healthSystem.health}");
         ActiveCard(_healthSystem.health);
     }
-
+    [Button]
     private void ActiveCard(int targetHealth)
     {
+        Debug.Log($"Target Health {targetHealth}");
         for(int i = 0;i < ListHealth.Count; i++)
         {
             if(i < targetHealth)

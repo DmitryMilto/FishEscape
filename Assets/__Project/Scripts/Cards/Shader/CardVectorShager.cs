@@ -16,7 +16,7 @@ namespace Scripts.Card
         public override IEnumerator ResetShader()
         {
             var time = this.image.material.GetVector(NameShader).y;
-            while (time > EndValue)
+            while (time < value.y)
             {
                 this.image.material.SetVector(NameShader, new Vector2(value.x, time));
                 yield return new WaitForSeconds(0.01f);

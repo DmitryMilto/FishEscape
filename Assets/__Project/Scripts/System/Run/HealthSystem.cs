@@ -1,16 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 public class HealthSystem
 {
-    public delegate void AddDamageDelegate();
-    public AddDamageDelegate onAddDamage;
+    public UnityAction<int> onAddDamage;
 
-    public delegate void AddHealthDelegate();
-    public AddHealthDelegate onAddHealth;
-    public int health { get; private set; }
-    public int maxHealth { get; private set; }
+    public int health;
+    public int maxHealth;
 
     public HealthSystem(int health)
     { 
@@ -18,16 +16,10 @@ public class HealthSystem
         this.maxHealth = 5;
     }
 
-    public void AddDamage(int damage = 1)
+    public void UpdateDamage(int operation)
     {
-        var _ = health - damage;
-        health = Mathf.Clamp(_, 0, maxHealth);
-        onAddDamage?.Invoke(); 
-    }
-    public void AddHealth(int health = 1)
-    {
-        var _ = this.health + health;
-        this.health = Mathf.Clamp(_, 0, maxHealth);
-        onAddHealth?.Invoke();
+        var target = health + operation;
+        health = Mathf.Clamp(target, 0, maxHealth);
+        onAddDamage?.Invoke(this.health); 
     }
 }

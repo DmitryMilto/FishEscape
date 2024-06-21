@@ -5,18 +5,38 @@ using Zenject;
 
 public abstract class InitializeBase<T> : MonoBehaviour where T : Enum
 {
-    public HealthSystem healthSystem { get; set; }
-    public SpeedSystem speedSystem { get; set; }
+    [Inject]
+    public HealthSystem healthSystem;
+    [Inject]
+    public SpeedSystem speedSystem;
 
-    public ControllerBubble controller { get; private set; }
-    public BubbleScale scale { get; private set; }
+    [SerializeField]
+    private ControllerBubble controller;
+    public ControllerBubble Controller { get 
+        {
+            if(controller == null) controller = GetComponent<ControllerBubble>();
+            return controller;
+        }
+        private set { controller = value; } }
+
+    [SerializeField]
+    private BubbleScale scale;
+    public BubbleScale Scale
+    {
+        get
+        {
+            if (controller == null) scale = GetComponent<BubbleScale>();
+            return scale;
+        }
+        private set { scale = value; }
+    }
 
     [SerializeField]
     protected EmptyDatabaseBonus<T> bonusDB;
 
     private void Start()
     {
-        controller = GetComponent<ControllerBubble>();
+        
         scale = GetComponent<BubbleScale>();
     }
 
@@ -25,7 +45,10 @@ public abstract class InitializeBase<T> : MonoBehaviour where T : Enum
 
     protected void Setting()
     {
-        this.controller.SetImage(bonusDB.element, bonusDB.TypeBubble);
-        this.scale.size = bonusDB.scale;
+        if (bonusDB != null)
+        {
+            this.Controller.SetImage(bonusDB.element, bonusDB.TypeBubble);
+            this.Scale.size = bonusDB.scale;
+        }
     }
 }

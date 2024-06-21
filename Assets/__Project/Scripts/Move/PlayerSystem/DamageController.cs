@@ -29,7 +29,7 @@ public class DamageController : MonoBehaviour
         //spriteRenderer.DOFade(0f, 6f);
         if (isDamage)
         {
-            healthSystem.AddDamage();
+            healthSystem.UpdateDamage(-1);
             coroutine = Damage();
             StartCoroutine(coroutine);
         }
@@ -37,6 +37,10 @@ public class DamageController : MonoBehaviour
         {
             Debug.LogError($"Coroutine is not null");
         }
+    }
+    public void RegisterHealth()
+    {
+        healthSystem.UpdateDamage(1);
     }
 
     private IEnumerator Damage()

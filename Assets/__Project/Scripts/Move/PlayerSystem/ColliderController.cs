@@ -20,5 +20,9 @@ public class ColliderController : MonoBehaviour
         {
             damageController.RegisterDamage();
         }
+        if(collision.tag == "Bonus")
+        {
+            damageController.RegisterHealth();
+        }
     }
 }

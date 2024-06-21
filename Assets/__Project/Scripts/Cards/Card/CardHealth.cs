@@ -5,7 +5,8 @@ namespace Scripts.Card
 {
     public class CardHealth : MonoBehaviour
     {
-        [SerializeReference]
+        private Coroutine coroutine;
+        
         private IShader cardShader;
         public IShader CardShader
         {
@@ -27,7 +28,9 @@ namespace Scripts.Card
         }
         public void Damage()
         {
-            StartCoroutine(AddDamage());
+            if (coroutine != null)
+                StopCoroutine(coroutine);
+            coroutine = StartCoroutine(AddDamage());
         }
         private IEnumerator AddDamage()
         {
@@ -36,7 +39,9 @@ namespace Scripts.Card
         }
         public void Health()
         {
-            StartCoroutine(AddHealth());
+            if (coroutine != null)
+                StopCoroutine(coroutine);
+            coroutine = StartCoroutine(AddHealth());
         }
         private IEnumerator AddHealth()
         {

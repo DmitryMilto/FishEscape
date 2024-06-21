@@ -6,10 +6,13 @@ public class InitializePuzzle : InitializeBase<EnumPuzzle>
     public PuzzleBubble puzzleBubble { get; private set; }
     public override void Initialize(EmptyDatabaseBonus<EnumPuzzle> bonus)
     {
-        puzzleBubble = new PuzzleBubble(bonus.TypeBonus);
-        bonusDB = bonus;
+        if (bonus != null)
+        {
+            puzzleBubble = new PuzzleBubble(bonus.TypeBonus);
+            bonusDB = bonus;
 
-        this.Setting();
+            this.Setting();
+        }
     }
     public override void Send()
     {
