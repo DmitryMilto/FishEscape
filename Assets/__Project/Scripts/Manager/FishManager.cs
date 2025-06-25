@@ -1,11 +1,10 @@
 using UnityEngine;
-using Zenject;
 
 public class FishManager : MonoBehaviour
 {
-    [Inject]
+
     private dbAllFish allfish;
-    [Inject]
+
     private GameConfige gameConfige;
 
     private void Awake()

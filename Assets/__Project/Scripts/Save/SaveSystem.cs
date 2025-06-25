@@ -6,8 +6,8 @@ public class SaveSystem
     {
         PlayerPrefs.SetString(key, data);
         if (!PlayerPrefs.HasKey(key))
-            Debug.Log($"Key {key} isn't creating");
-        Debug.Log($"Key {key} not delete");
+            TDebug.Log($"Key {key} isn't creating");
+        TDebug.Log($"Key {key} not delete");
     }
     public string Load(string key)
     {
@@ -18,7 +18,7 @@ public class SaveSystem
     {
         PlayerPrefs.DeleteKey(key);
         if (!PlayerPrefs.HasKey(key))
-            Debug.Log($"Key {key} delete");
-        Debug.Log($"Key {key} not delete");
+            TDebug.Log($"Key {key} delete");
+        TDebug.Log($"Key {key} not delete");
     }
 }

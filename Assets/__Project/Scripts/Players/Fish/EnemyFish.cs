@@ -20,10 +20,10 @@ namespace FishEscape.Fishs
         [Range(0f,1f)]
         public float scale = .1f;
 
-        [BoxGroup("Other Setting")]
-        public List<ListBuffer> list;
-        [BoxGroup("Other Setting")]
-        public EnumTypeMove typeMove;
+        // [BoxGroup("Other Setting")]
+        // public List<ListBuffer> list;
+        // [BoxGroup("Other Setting")]
+        // public EnumTypeMove typeMove;
 
         private EnemySaveData saveData;
 

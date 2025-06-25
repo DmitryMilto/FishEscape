@@ -16,10 +16,10 @@ namespace Scripts.AutoSize
         }
 
         // Start is called before the first frame update
-        //void Start()
-        //{
-        //    AutoSize();
-        //}
+        void Start()
+        {
+            AutoSize();
+        }
 
         public bool Horizontal { set { horizontal = value; } get { return horizontal; } }
         [SerializeField] private bool horizontal = true;

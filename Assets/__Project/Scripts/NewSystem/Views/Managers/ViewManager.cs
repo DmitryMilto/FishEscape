@@ -1,0 +1,146 @@
+using System;
+using System.Collections.Generic;
+using __Project.Scripts.NewSystem.Database.View;
+using __Project.Scripts.NewSystem.Enums;
+using __Project.Scripts.NewSystem.Interfaces.View;
+using __Project.Scripts.NewSystem.Views.Base;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using VContainer;
+
+namespace __Project.Scripts.NewSystem.Views.Managers
+{
+    public class ViewManager : MonoBehaviour
+    {
+#if UNITY_EDITOR && ALL_DEBUG
+        private string _logName = $"<color=#97D9C6>[{nameof(ViewManager)}]</color>";
+#else
+        private string _logName = $"[{nameof(ViewManager)}]";
+#endif
+        [Inject] private ViewRegistry _registry;
+        [SerializeField] private Transform _fullScreenRoot;
+        [SerializeField] private Transform _popupRoot;
+        [SerializeField] private Canvas _shadowCanvas;
+        [SerializeField] private Canvas _blurCanvas;
+
+        private FullScreenViewProvider _fullScreenProvider;
+        private PopupViewProvider _popupProvider;
+
+        private Dictionary<Type, ViewBase> _cache = new();
+        public void Awake()
+        {
+            _fullScreenProvider = new FullScreenViewProvider(_registry, _fullScreenRoot);
+            _popupProvider = new PopupViewProvider(_registry, _fullScreenProvider, _popupRoot, _shadowCanvas, _blurCanvas);
+        }
+
+        // Открытие с анимацией
+        public async UniTask<T> OpenViewAsync<T>() where T : ViewBase
+        {
+            var type = typeof(T);
+            var prefab = _registry.GetPrefab<T>();
+            if (prefab == null)
+                throw new Exception($"{_logName} No prefab found for type {type.Name}");
+
+            switch (prefab.TypeView)
+            {
+                case ETypeView.FullScreen:
+                    var fullScreen = await _fullScreenProvider.OpenViewAsync<T>();
+                    _cache[type] = fullScreen;
+                    fullScreen.InitializeViews(this);
+                    return fullScreen as T;
+                case ETypeView.Popup:
+                    var popup = await _popupProvider.OpenViewAsync<T>();
+                    _cache[type] = popup;
+                    popup.InitializeViews(this);
+                    return popup as T;
+                default:
+                    throw new Exception($"{_logName} Unknown view type: {prefab.TypeView}");
+            }
+        }
+
+        // Быстрое открытие (без анимации)
+        public T OpenView<T>(T view) where T : ViewBase
+        {
+            var type = typeof(T);
+            if (view == null)
+                throw new ArgumentNullException($"{_logName} View is null");
+
+            switch (view.TypeView)
+            {
+                case ETypeView.FullScreen:
+                    var fullScreen = _fullScreenProvider.OpenView(view);
+                    _cache[type] = fullScreen;
+                    fullScreen.InitializeViews(this);
+                    return fullScreen as T;
+                case ETypeView.Popup:
+                    var popup = _popupProvider.OpenView(view);
+                    _cache[type] = popup;
+                    popup.InitializeViews(this);
+                    return popup as T;
+                default:
+                    throw new Exception($"{_logName} Unknown view type: {view.TypeView}");
+            }
+        }
+        public async UniTask CloseViewAsync<T>(T view = null) where T : ViewBase
+        {
+            var type = typeof(T);
+            if (view == null)
+            {
+                if (!_cache.ContainsKey(type) || view == null)
+                    throw new ArgumentNullException($"{_logName} View is null and not found in cache");
+                else
+                {
+                    view = _cache[type] as T;
+                }
+            }
+
+            if (view == null)
+            {
+                TDebug.Log($"{_logName} View is null, cannot close.");
+                return;
+            }
+
+            switch (view.TypeView)
+            {
+                case ETypeView.FullScreen:
+                    await _fullScreenProvider.CloseViewAsync(view);
+                    break;
+                case ETypeView.Popup:
+                    await _popupProvider.CloseViewAsync(view);
+                    break;
+                default:
+                    throw new Exception($"{_logName} Unknown view type: {view.TypeView}");
+            }
+        }
+
+        public void CloseView<T>(T view = null) where T : ViewBase
+        {
+            var type = typeof(T);
+            if (view == null)
+            {
+                if (!_cache.ContainsKey(type) || view == null)
+                    throw new ArgumentNullException($"{_logName} View is null and not found in cache");
+                else
+                {
+                    view = _cache[type] as T;
+                }
+            }
+            if (view == null)
+            {
+                TDebug.Log($"{_logName} View is null, cannot close.");
+                return;
+            }
+            switch (view.TypeView)
+            {
+                case ETypeView.FullScreen:
+                    _fullScreenProvider.CloseView(view);
+                    break;
+                case ETypeView.Popup:
+                    _popupProvider.CloseView(view);
+                    break;
+                default:
+                    throw new Exception($"{_logName} Unknown view type: {view.TypeView}");
+            }
+        }
+    }
+}
