@@ -15,6 +15,7 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
         {
             _mainCamera = Camera.main;
             _player = player;
+            SpawnFish();
         }
 
         public override void NewGame()
@@ -34,8 +35,7 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
 
         public override void Update()
         {
-            if (!isPauseGame)
-                HandleMovement();
+            if (isPauseGame) return;
         }
 
         public override void DestroyProvider()
@@ -43,21 +43,6 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
             DestroyAllFishes();
         }
         
-        private void HandleMovement()
-        {
-            float moveY = Input.GetAxisRaw("Vertical");
-            if (moveY != 0)
-            {
-                _player.transform.Translate(Vector3.up * (moveY * _currentFish.Speed * Time.deltaTime));
-            }
-            else if (Input.GetMouseButtonDown(0))
-            {
-                Vector3 mouseWorld = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-                float targetY = mouseWorld.y;
-                _player.transform.position = new Vector3(_player.transform.position.x, targetY,
-                    _player.transform.position.z);
-            }
-        }
         private void SpawnFish()
         {
             if (_player == null) return;
@@ -80,6 +65,20 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
                 UnityEngine.Object.Destroy(_currentFish.gameObject);
                 _currentFish = null;
             }
+        }
+
+        public void MoveY(float moveY)
+        {
+            if (isPauseGame) return;
+            _player.transform.Translate(Vector3.up * (moveY * _currentFish.Speed * Time.deltaTime));
+        }
+
+        public void MouseMove(Vector3 mouseWorld)
+        {
+            if (isPauseGame) return;
+            float targetY = mouseWorld.y;
+            _player.transform.position = new Vector3(_player.transform.position.x, targetY,
+                _player.transform.position.z);
         }
     }
 }

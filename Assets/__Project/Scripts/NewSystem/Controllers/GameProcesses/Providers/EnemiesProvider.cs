@@ -30,7 +30,7 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
 
         public override void NewGame()
         {
-            throw new System.NotImplementedException();
+            DestroyAllObjects();
         }
 
         public override void GameOverGame()
@@ -45,12 +45,19 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
 
         public override void Update()
         {
+            if(isPauseGame) return;
             timer += Time.deltaTime;
             if (timer >= spawnInterval && ActiveObjectsCount() < maxObjectsOnLine)
             {
                 SpawnRandomObject();
                 timer = 0;
             }
+        }
+
+        public override void PauseGame(bool isPause)
+        {
+            base.PauseGame(isPause);
+            SetEnemiesActive(!isPause);
         }
 
         public override void DestroyProvider()
@@ -78,13 +85,13 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
             if (Random.value > 0f)
             {
                 var pool = enemyPools[Random.Range(0, enemyPools.Count)];
-                var enemy = pool.GetOrReuseElement(new Vector3(rightScreenX, Random.Range(-4f, 4f), 0));
+                var enemy = pool.GetOrReuseElement(new Vector3(rightScreenX, Random.Range(-3f, 3f), 0));
                 enemy.OnSpawn(enemy.transform.position);
             }
             else
             {
                 var pool = boosterPools[Random.Range(0, boosterPools.Count)];
-                var enemy = pool.GetOrReuseElement(new Vector3(rightScreenX, Random.Range(-4f, 4f), 0));
+                var enemy = pool.GetOrReuseElement(new Vector3(rightScreenX, Random.Range(-3f, 3f), 0));
                 enemy.OnSpawn(enemy.transform.position);
             }
         }
@@ -104,6 +111,25 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
                 pool.DestroyAll();
             foreach (var pool in boosterPools)
                 pool.DestroyAll();
+        }
+        private void SetEnemiesActive(bool active)
+        {
+            foreach (var pool in enemyPools)
+            {
+                foreach (var enemy in pool.Pool)
+                {
+                    if (enemy.gameObject.activeInHierarchy)
+                        enemy.enabled = active;
+                }
+            }
+            foreach (var pool in boosterPools)
+            {
+                foreach (var booster in pool.Pool)
+                {
+                    if (booster.gameObject.activeInHierarchy)
+                        booster.enabled = active;
+                }
+            }
         }
     }
 }

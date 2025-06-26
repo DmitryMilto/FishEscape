@@ -68,11 +68,11 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses
         }
         private void Update()
         {
-            Player?.Update();
+            // UpdatePlayer();
             Enemies?.Update();
             Background?.Update();
         }
-
+        
         private void OnDestroy()
         {
             TDebug.Log($"{_nameLog} OnDestroy");

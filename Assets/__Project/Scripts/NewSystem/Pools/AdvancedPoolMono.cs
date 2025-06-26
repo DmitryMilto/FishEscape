@@ -9,6 +9,8 @@ namespace __Project.Scripts.NewSystem.Pools
         public int maxCount;
         public Transform container { get; }
         private List<T> pool;
+        
+        public List<T> Pool => pool;
 
         public AdvancedPoolMono(T prefab, int maxCount, Transform container = null)
         {
@@ -54,7 +56,7 @@ namespace __Project.Scripts.NewSystem.Pools
             // Можно добавить сброс состояния объекта, если нужно
             return pool[randomIndex];
         }
-
+        
         public int ActiveCount()
         {
             int count = 0;

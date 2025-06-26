@@ -23,7 +23,7 @@ namespace __Project.Scripts.NewSystem.Fishes.Players
         {
             mainCamera = Camera.main;
             float leftX = ScreenBoundsUtils.GetLeftScreenX();
-            transform.position = new Vector3(leftX + 1f, 0, 0);
+            transform.position = new Vector3(leftX + 4f, 0, 0);
             currentLives = maxLives;
         }
 
@@ -66,7 +66,7 @@ namespace __Project.Scripts.NewSystem.Fishes.Players
             var pos = transform.position;
             var min = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
             var max = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
-            pos.y = Mathf.Clamp(pos.y, min.y, max.y);
+            pos.y = Mathf.Clamp(pos.y, min.y + 2f, max.y - 2f);
             pos.x = Mathf.Clamp(pos.x, min.x, max.x);
             transform.position = pos;
         }
