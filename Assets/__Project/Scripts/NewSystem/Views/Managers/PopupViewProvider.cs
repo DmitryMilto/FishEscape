@@ -6,6 +6,8 @@ using __Project.Scripts.NewSystem.Interfaces.View;
 using __Project.Scripts.NewSystem.Views.Base;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 namespace __Project.Scripts.NewSystem.Views.Managers
 {
@@ -21,20 +23,22 @@ namespace __Project.Scripts.NewSystem.Views.Managers
         private readonly Canvas _shadowCanvas;
         private readonly Canvas _blurCanvas;
         private readonly Stack<PopupBase> _popupStack = new();
+        private readonly IObjectResolver _resolver;
+
         private PopupBase _activePopup;
         private int _baseSortingOrder = 10;
         private int _sortingStep = 2;
         private readonly FullScreenViewProvider _fullScreenProvider;
 
         public PopupViewProvider(ViewRegistry registry, FullScreenViewProvider fullScreenProvider, Transform popupRoot,
-            Canvas shadowCanvas, Canvas blurCanvas)
+            Canvas shadowCanvas, Canvas blurCanvas, IObjectResolver resolver)
         {
-            TDebug.Log($"{_nameLog} Initializing PopupViewProvider...");
             _registry = registry;
             _fullScreenProvider = fullScreenProvider;
             _popupRoot = popupRoot;
             _shadowCanvas = shadowCanvas;
             _blurCanvas = blurCanvas;
+            _resolver = resolver;
         }
 
         public async UniTask<T> OpenViewAsync<T>() where T : ViewBase
@@ -61,7 +65,9 @@ namespace __Project.Scripts.NewSystem.Views.Managers
             var popup = GetView<T>() as PopupBase;
             if (popup == null)
                 throw new Exception($"{_nameLog} No prefab found for type {type.Name}");
+            
             popup = UnityEngine.Object.Instantiate(popup, _popupRoot);
+            _resolver.InjectGameObject(popup.gameObject); // Инъекция зависимостей
 
             int order = _baseSortingOrder + _popupStack.Count * _sortingStep;
             SetSortingOrder(popup, order);

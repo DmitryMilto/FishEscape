@@ -5,6 +5,8 @@ using __Project.Scripts.NewSystem.Interfaces.View;
 using __Project.Scripts.NewSystem.Views.Base;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 namespace __Project.Scripts.NewSystem.Views.Managers
 {
@@ -21,11 +23,13 @@ namespace __Project.Scripts.NewSystem.Views.Managers
         private ViewBase _activeView;
         public ViewBase ActiveView => _activeView;
 
-        public FullScreenViewProvider(ViewRegistry registry, Transform manager)
+        private readonly IObjectResolver _resolver;
+
+        public FullScreenViewProvider(ViewRegistry registry, Transform manager, IObjectResolver resolver)
         {
-            TDebug.Log($"{_nameLog} Initializing FullScreenViewProvider...");
             _registry = registry;
             _fullScreenRoot = manager;
+            _resolver = resolver;
         }
 
         public async UniTask<T> OpenViewAsync<T>() where T : ViewBase
@@ -54,6 +58,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 if (view == null)
                     throw new Exception($"{_nameLog} No prefab found for type {type.Name}");
                 view = UnityEngine.Object.Instantiate(view, _fullScreenRoot);
+                _resolver.InjectGameObject(view.gameObject); // Инъекция зависимостей
                 _views[type] = view;
             }
 

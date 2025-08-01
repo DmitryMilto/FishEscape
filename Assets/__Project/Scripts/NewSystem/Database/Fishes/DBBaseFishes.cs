@@ -16,6 +16,8 @@ namespace __Project.Scripts.NewSystem.Database.Fishes
         protected Dictionary<TypeOceans, Dictionary<ENamesFish,TPlayer>> _cache = new Dictionary<TypeOceans, Dictionary<ENamesFish, TPlayer>>();
         [SerializeField] protected List<TPlayer> fishes;
         
+        public void SetFishes(List<TPlayer> fishes) => this.fishes = fishes;
+        
         public TPlayer GetFish(ENamesFish name, TypeOceans ocean)
         {
             if (_cache.TryGetValue(ocean, out var cacheFish) && cacheFish.TryGetValue(name, out var cachedFish))

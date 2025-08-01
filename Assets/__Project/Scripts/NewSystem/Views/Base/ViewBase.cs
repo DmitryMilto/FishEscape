@@ -6,6 +6,7 @@ using __Project.Scripts.NewSystem.Views.Managers;
 using __Project.Scripts.NewSystem.Views.SubViews;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
 
 namespace __Project.Scripts.NewSystem.Views.Base
 {
@@ -16,7 +17,8 @@ namespace __Project.Scripts.NewSystem.Views.Base
 #else
         protected string _nameLog => $"[{this.GetType().Name}]";
 #endif
-        protected ViewManager _manager;
+        [Inject] protected ViewManager _manager;
+        
         [SerializeField] protected CanvasGroup _canvasGroup;
         [SerializeField] private List<SubView> _subViews;
         [SerializeField] private TypeAnimation _animation = TypeAnimation.None;
@@ -38,10 +40,10 @@ namespace __Project.Scripts.NewSystem.Views.Base
             _canvasGroup ??= GetComponent<CanvasGroup>();
         }
 #endif 
-        public void InitializeViews(ViewManager manager)
-        {
-            _manager = manager;
-        }
+        // public void InitializeViews(ViewManager manager)
+        // {
+        //     _manager = manager;
+        // }
         public virtual async UniTask OpenAsync()
         {
             _canvasGroup.interactable = false;

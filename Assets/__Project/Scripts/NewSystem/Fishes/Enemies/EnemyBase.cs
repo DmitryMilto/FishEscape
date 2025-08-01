@@ -1,12 +1,18 @@
+using System;
+using System.Collections.Generic;
 using __Project.Scripts.NewSystem.Fishes.Base;
+using __Project.Scripts.NewSystem.Interfaces.Enemies;
 using __Project.Scripts.NewSystem.Interfaces.Gameplays;
 using __Project.Scripts.NewSystem.Tools;
 using UnityEngine;
 
 namespace __Project.Scripts.NewSystem.Fishes.Enemies
 {
-    public abstract class EnemyBase : BaseFish, ISpawnable, IMovable
+    public abstract class EnemyBase : BaseFish, ISpawnable
     {
+        protected List<IMoveEnemy> _moveBehaviours = new();
+        protected List<IEffectEnemy> _effectBehaviours = new();
+        
         public void SetSpeed(float newSpeed) => fishSpeed = newSpeed;
     
         protected float leftX => ScreenBoundsUtils.GetLeftScreenX();
@@ -21,8 +27,23 @@ namespace __Project.Scripts.NewSystem.Fishes.Enemies
         {
             gameObject.SetActive(false);
         }
-    
-        public abstract void Move();
+
+        protected abstract void Awake();
+        protected virtual void Start()
+        {
+            foreach (var effect in _effectBehaviours)
+            {
+                effect.ApplyEffect(this);
+            }
+        }
+
+        protected virtual void Move()
+        {
+            foreach (var move in _moveBehaviours)
+            {
+                move.Move(this);
+            }
+        }
     
         protected void Update()
         {

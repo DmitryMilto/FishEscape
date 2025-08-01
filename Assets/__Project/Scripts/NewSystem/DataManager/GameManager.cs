@@ -1,6 +1,8 @@
+using __Project.Scripts.NewSystem.Controllers.Audios;
 using __Project.Scripts.NewSystem.DataManager;
 using __Project.Scripts.NewSystem.DataManager.Levels;
 using __Project.Scripts.NewSystem.Enums;
+using __Project.Scripts.NewSystem.Enums.Audios;
 using __Project.Scripts.NewSystem.Views.Gameplay;
 using __Project.Scripts.NewSystem.Views.Home;
 using __Project.Scripts.NewSystem.Views.Managers;
@@ -19,12 +21,14 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
         private static string _nameLog = $"[{nameof(GameManager)}]";
         #endif
 
+        public static AudioController Audio {get; private set; }
         public static ViewManager ViewManager{ get; private set; }
         public static LevelData LevelData { get; private set; }
 
         [Preserve]
-        public GameManager(ViewManager viewManager)
+        public GameManager(ViewManager viewManager, AudioController audioController)
         {
+            Audio = audioController;
             ViewManager = viewManager;
             TDebug.Log($"{_nameLog}: Creating GameManager...");
         }
@@ -56,6 +60,7 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
                 return false;
             }
             await SceneManager.LoadSceneAsync("Run");
+            Audio.Play(SoundType.BackgroundGame);
             await ViewManager.OpenViewAsync<ViewGameplay>();
             return true;
         }
@@ -69,6 +74,7 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
                 return;
             }
             await SceneManager.LoadSceneAsync("Home");
+            Audio.Play(SoundType.BackgroundMenu);
             await ViewManager.OpenViewAsync<ViewHome>();
         }
     }

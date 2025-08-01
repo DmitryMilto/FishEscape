@@ -41,7 +41,7 @@ namespace __Project.Scripts.NewSystem.Views.Home
         private void OpenShop()
         {
             TDebug.Log($"{_nameLog} Open Shop");
-            _manager.CloseViewAsync(this).Forget();
+            _manager.OpenViewAsync<PopupShop>().Forget();
         }
         private void OpenSettings()
         {
@@ -55,6 +55,7 @@ namespace __Project.Scripts.NewSystem.Views.Home
         private void OpenLibrary()
         {
             TDebug.Log($"{_nameLog} Open Library");
+            _manager.OpenViewAsync<PopupBook>().Forget();
         }
         private void OpenCompany()
         {

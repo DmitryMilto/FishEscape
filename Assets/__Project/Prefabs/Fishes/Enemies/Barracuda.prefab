@@ -74,35 +74,18 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7612961796989302476, guid: ca76e0946a899fb4d97d93c38bed4ea4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3022620305942956030}
+      addedObject: {fileID: 2061455842599141113}
     - targetCorrespondingSourceObject: {fileID: 7612961796989302476, guid: ca76e0946a899fb4d97d93c38bed4ea4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1765506515006859663}
+      addedObject: {fileID: 8986408336958194325}
   m_SourcePrefab: {fileID: 100100000, guid: ca76e0946a899fb4d97d93c38bed4ea4, type: 3}
 --- !u!1 &1693299622693068476 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7612961796989302476, guid: ca76e0946a899fb4d97d93c38bed4ea4, type: 3}
   m_PrefabInstance: {fileID: 9140446192403409008}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3022620305942956030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693299622693068476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 571fe0bec36c4826aab80da06ca81400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 4043126461983755685}
-  oceans: 1
-  nameFish: 2
-  fishSpeed: 1.5
-  blinkInterval: 1.25
---- !u!70 &1765506515006859663
-CapsuleCollider2D:
+--- !u!60 &2061455842599141113
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -134,8 +117,115 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 4.73, y: 1.55}
-  m_Direction: 1
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.29999998, y: -0.66999996}
+      - {x: 0.44, y: -0.63}
+      - {x: 0.58, y: -0.58}
+      - {x: 0.65, y: -0.55}
+      - {x: 0.79999995, y: -0.48}
+      - {x: 0.89, y: -0.44}
+      - {x: 1.12, y: -0.31}
+      - {x: 1.2099999, y: -0.25}
+      - {x: 1.29, y: -0.19}
+      - {x: 1.43, y: -0.06}
+      - {x: 1.99, y: -0.14999999}
+      - {x: 2.11, y: -0.16}
+      - {x: 2.1299999, y: -0.14}
+      - {x: 2.12, y: -0.089999996}
+      - {x: 1.9699999, y: 0.06}
+      - {x: 1.9, y: 0.089999996}
+      - {x: 1.9499999, y: 0.12}
+      - {x: 2.1299999, y: 0.28}
+      - {x: 2.19, y: 0.35}
+      - {x: 2.18, y: 0.38}
+      - {x: 2.1399999, y: 0.39}
+      - {x: 1.92, y: 0.32}
+      - {x: 1.4, y: 0.14}
+      - {x: 1.1899999, y: 0.13}
+      - {x: 1.18, y: 0.14}
+      - {x: 0.7, y: 0.19999999}
+      - {x: 0.75, y: 0.22}
+      - {x: 0.81, y: 0.26}
+      - {x: 0.79999995, y: 0.29}
+      - {x: 0.53999996, y: 0.34}
+      - {x: 0.47, y: 0.35}
+      - {x: 0.53, y: 0.39}
+      - {x: 0.52, y: 0.42999998}
+      - {x: 0.35999998, y: 0.39999998}
+      - {x: 0.17, y: 0.51}
+      - {x: 0.01, y: 0.62}
+      - {x: 0.02, y: 0.71999997}
+      - {x: 0, y: 0.74}
+      - {x: -0.03, y: 0.72999996}
+      - {x: -0.089999996, y: 0.63}
+      - {x: -0.26, y: 0.32999998}
+      - {x: -0.32, y: 0.21}
+      - {x: -0.35999998, y: 0.21}
+      - {x: -0.5, y: 0.19999999}
+      - {x: -0.74, y: 0.17}
+      - {x: -0.91999996, y: 0.14}
+      - {x: -1.02, y: 0.12}
+      - {x: -1.1, y: 0.099999994}
+      - {x: -1.14, y: 0.14}
+      - {x: -1.31, y: 0.14}
+      - {x: -1.4, y: 0.08}
+      - {x: -1.4699999, y: 0}
+      - {x: -1.54, y: -0.01}
+      - {x: -1.7099999, y: -0.08}
+      - {x: -1.6999999, y: 0.04}
+      - {x: -1.75, y: 0.06}
+      - {x: -1.77, y: 0.03}
+      - {x: -1.8, y: -0.089999996}
+      - {x: -1.86, y: -0.04}
+      - {x: -1.89, y: -0.049999997}
+      - {x: -1.93, y: -0.13}
+      - {x: -1.9799999, y: -0.04}
+      - {x: -2.01, y: 0}
+      - {x: -2.04, y: 0.01}
+      - {x: -2.1, y: -0.11}
+      - {x: -2.1, y: -0.17}
+      - {x: -2.18, y: -0.26999998}
+      - {x: -2.21, y: -0.35999998}
+      - {x: -2.22, y: -0.45}
+      - {x: -2.2, y: -0.51}
+      - {x: -2.11, y: -0.59999996}
+      - {x: -1.23, y: -0.82}
+      - {x: -0.84999996, y: -0.82}
+      - {x: -0.66999996, y: -0.81}
+      - {x: -0.52, y: -0.79999995}
+      - {x: -0.42999998, y: -0.79999995}
+      - {x: -0.34, y: -0.83}
+      - {x: -0.32999998, y: -0.83}
+      - {x: -0.29999998, y: -0.82}
+      - {x: -0.26999998, y: -0.78}
+      - {x: -0.089999996, y: -0.76}
+      - {x: 0.22, y: -0.69}
+  m_UseDelaunayMesh: 0
+--- !u!114 &8986408336958194325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693299622693068476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acceec12c1e42aa86d751f4a4263afa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 4043126461983755685}
+  oceans: 1
+  fishSpeed: 1.5
 --- !u!212 &4043126461983755685 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5099606925193045461, guid: ca76e0946a899fb4d97d93c38bed4ea4, type: 3}

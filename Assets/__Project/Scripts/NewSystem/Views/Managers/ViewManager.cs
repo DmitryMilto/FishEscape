@@ -18,6 +18,8 @@ namespace __Project.Scripts.NewSystem.Views.Managers
         private string _logName = $"[{nameof(ViewManager)}]";
 #endif
         [Inject] private ViewRegistry _registry;
+        [Inject] private IObjectResolver _resolver; // Добавить это поле
+        
         [SerializeField] private Transform _fullScreenRoot;
         [SerializeField] private Transform _popupRoot;
         [SerializeField] private Canvas _shadowCanvas;
@@ -27,12 +29,12 @@ namespace __Project.Scripts.NewSystem.Views.Managers
         private PopupViewProvider _popupProvider;
 
         private Dictionary<Type, ViewBase> _cache = new();
+        
         public void Awake()
         {
-            _fullScreenProvider = new FullScreenViewProvider(_registry, _fullScreenRoot);
-            _popupProvider = new PopupViewProvider(_registry, _fullScreenProvider, _popupRoot, _shadowCanvas, _blurCanvas);
+            _fullScreenProvider = new FullScreenViewProvider(_registry, _fullScreenRoot, _resolver);
+            _popupProvider = new PopupViewProvider(_registry, _fullScreenProvider, _popupRoot, _shadowCanvas, _blurCanvas, _resolver);
         }
-
         // Открытие с анимацией
         public async UniTask<T> OpenViewAsync<T>() where T : ViewBase
         {
@@ -46,12 +48,12 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 case ETypeView.FullScreen:
                     var fullScreen = await _fullScreenProvider.OpenViewAsync<T>();
                     _cache[type] = fullScreen;
-                    fullScreen.InitializeViews(this);
+                    // fullScreen.InitializeViews(this);
                     return fullScreen as T;
                 case ETypeView.Popup:
                     var popup = await _popupProvider.OpenViewAsync<T>();
                     _cache[type] = popup;
-                    popup.InitializeViews(this);
+                    // popup.InitializeViews(this);
                     return popup as T;
                 default:
                     throw new Exception($"{_logName} Unknown view type: {prefab.TypeView}");
@@ -70,12 +72,12 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 case ETypeView.FullScreen:
                     var fullScreen = _fullScreenProvider.OpenView(view);
                     _cache[type] = fullScreen;
-                    fullScreen.InitializeViews(this);
+                    // fullScreen.InitializeViews(this);
                     return fullScreen as T;
                 case ETypeView.Popup:
                     var popup = _popupProvider.OpenView(view);
                     _cache[type] = popup;
-                    popup.InitializeViews(this);
+                    // popup.InitializeViews(this);
                     return popup as T;
                 default:
                     throw new Exception($"{_logName} Unknown view type: {view.TypeView}");

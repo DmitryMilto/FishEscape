@@ -16,8 +16,7 @@ namespace __Project.Scripts.NewSystem.Fishes.Base
         [SerializeField] protected TypeOceans oceans;
         public TypeOceans Oceans => oceans;
         
-        [SerializeField] protected ENamesFish nameFish;
-        public ENamesFish Name => nameFish;
+        public abstract ENamesFish Name { get; }
         
         [SerializeField] protected float fishSpeed;
         public float Speed => fishSpeed;

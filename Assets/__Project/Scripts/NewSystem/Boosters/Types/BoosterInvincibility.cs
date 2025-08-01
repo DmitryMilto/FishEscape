@@ -14,7 +14,7 @@ namespace __Project.Scripts.NewSystem.Boosters.Types
     
         public override void ApplyEffect(PlayerFishBase player)
         {
-            player.SetInvincible(duration);
+            // player.SetInvincible(duration);
         }
     }
 }

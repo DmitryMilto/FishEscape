@@ -3,6 +3,7 @@ using __Project.Scripts.NewSystem.Controllers.DataManager;
 using __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers;
 using __Project.Scripts.NewSystem.DataManager;
 using __Project.Scripts.NewSystem.DataManager.Levels;
+using __Project.Scripts.NewSystem.Views.Gameplay;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses
                 return;
             }
             Player ??= new FishProvider(_playerSpawnPoint, _levelData.Player);
-            Enemies ??= new EnemiesProvider(_enemiesSpawnPoint, _levelData.Enemies, _levelData.Boosters);
+            Enemies ??= new EnemiesProvider(_enemiesSpawnPoint, Player ,_levelData.Enemies, _levelData.Boosters);
             Background ??= new BackgroundProvider(_backgroundSpawnPoint, _levelData.Background);
             
             GlobalEventsManager.OnDeath += GameOverGame;
@@ -47,6 +48,7 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses
         private void GameOverGame()
         {
             TDebug.Log($"{_nameLog} Game Over!");
+            GameManager.ViewManager.OpenViewAsync<ViewGameOver>().Forget();
             Player?.GameOverGame();
             Enemies?.GameOverGame();
             Background?.GameOverGame();
@@ -68,7 +70,6 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses
         }
         private void Update()
         {
-            // UpdatePlayer();
             Enemies?.Update();
             Background?.Update();
         }

@@ -11,6 +11,7 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
 #endif
         protected readonly Transform _spawnPoint;
         protected bool isPauseGame;
+        protected bool isGameOver;
         
         public BaseGameProvider(Transform spawnPoint)
         {

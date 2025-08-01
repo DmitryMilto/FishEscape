@@ -10,6 +10,7 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
         private readonly Camera _mainCamera;
         
         private PlayerFishBase _currentFish;
+        public PlayerFishBase CurrentFish => _currentFish;
         
         public FishProvider(Transform spawnPoint,PlayerFishBase player) : base(spawnPoint)
         {
@@ -36,6 +37,12 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
         public override void Update()
         {
             if (isPauseGame) return;
+        }
+        public override void PauseGame(bool isPause)
+        {
+            TDebug.Log($"{_nameLog}: Pause game - {isPause}");
+            isPauseGame = isPause;
+            _currentFish.SetPause(isPause);
         }
 
         public override void DestroyProvider()

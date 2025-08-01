@@ -11,6 +11,7 @@ namespace __Project.Scripts.NewSystem.Pools
         private List<T> pool;
         
         public List<T> Pool => pool;
+        public T Prefab => prefab;
 
         public AdvancedPoolMono(T prefab, int maxCount, Transform container = null)
         {

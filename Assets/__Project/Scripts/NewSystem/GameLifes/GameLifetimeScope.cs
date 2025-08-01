@@ -1,6 +1,10 @@
+using __Project.Scripts.NewSystem.Controllers.Audios;
 using __Project.Scripts.NewSystem.Controllers.DataManager;
+using __Project.Scripts.NewSystem.Database;
+using __Project.Scripts.NewSystem.Database.Audios;
 using __Project.Scripts.NewSystem.Database.View;
 using __Project.Scripts.NewSystem.DataManager;
+using __Project.Scripts.NewSystem.Enums;
 using __Project.Scripts.NewSystem.Views.Managers;
 using UnityEngine;
 using VContainer;
@@ -10,6 +14,7 @@ namespace __Project.Scripts.NewSystem.GameLifes
 {
     public class GameLifetimeScope: LifetimeScope
     {
+        [SerializeField] private SoundDatabase soundDatabase;
         [SerializeField] private ViewRegistry viewRegistry;
         protected override void Configure(IContainerBuilder builder)
         {
@@ -23,11 +28,22 @@ namespace __Project.Scripts.NewSystem.GameLifes
             builder.RegisterComponentInNewPrefab<ViewManager>(viewManagerPrefab, Lifetime.Singleton)
                 .DontDestroyOnLoad();
 
-            // Пример: регистрация других сервисов
-            // builder.Register<SomeService>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            // Загрузка и регистрация AudioController через ресурсы
+            var audioControllerPrefab = Resources.Load<AudioController>("AudioController");
+            builder.RegisterComponentInNewPrefab<AudioController>(audioControllerPrefab, Lifetime.Singleton)
+                .DontDestroyOnLoad()
+                .AsImplementedInterfaces();
 
             builder.Register<AppData>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<GameManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            
+            var fishBookDatabase = Resources.Load<FishBookDatabase>("FishBookDatabase");
+            builder.RegisterInstance(fishBookDatabase); // ScriptableObject с данными
+            builder.Register<FishBookManager>(Lifetime.Singleton).AsSelf();
+            
+            builder.Register<IFileManager, FileManager>(Lifetime.Singleton);
+
+            builder.RegisterInstance(soundDatabase);
         }
     }
 }

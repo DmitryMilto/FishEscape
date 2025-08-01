@@ -1,4 +1,6 @@
 using System;
+using __Project.Scripts.NewSystem.Controllers.Audios;
+using __Project.Scripts.NewSystem.Enums.Audios;
 using __Project.Scripts.NewSystem.Views.Home;
 using __Project.Scripts.NewSystem.Views.Managers;
 using Cysharp.Threading.Tasks;
@@ -12,6 +14,7 @@ namespace __Project.Scripts.NewSystem.DataManager
     public class InitializeManager : MonoBehaviour
     {
         [HideInInspector][Inject] public ViewManager _viewManager;
+        [Inject] public AudioController audioController;
         
         [SerializeField] private GameObject cameraPrefab;
         [SerializeField] private LifetimeScope sceneContext;
@@ -40,6 +43,7 @@ namespace __Project.Scripts.NewSystem.DataManager
             await UniTask.DelayFrame(1);
             
             await SceneManager.LoadSceneAsync("Home", LoadSceneMode.Single);
+            audioController.Play(SoundType.BackgroundMenu);
             var home = await _viewManager.OpenViewAsync<ViewHome>();
         }
     }
