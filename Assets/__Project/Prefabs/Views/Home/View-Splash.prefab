@@ -185,6 +185,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1430239986011326347, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3008797874686677423, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
       propertyPath: m_SortingOrder
       value: 10
@@ -192,6 +196,10 @@ PrefabInstance:
     - target: {fileID: 3641235119126312600, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
       propertyPath: m_Name
       value: View-Splash
+      objectReference: {fileID: 0}
+    - target: {fileID: 3641235119126312600, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8058838030957015714, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
       propertyPath: m_Pivot.x
@@ -304,11 +312,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ffde1b944d4d70baf02f6655ab555e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 1422744641124107874}
   _canvasGroup: {fileID: 5139512248872773318}
   _subViews:
   - {fileID: 1668169528635736160}
   _animation: 4
   _viewType: 0
+--- !u!223 &1422744641124107874 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3008797874686677423, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
+  m_PrefabInstance: {fileID: 4215368217304848333}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2024085475016163818 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2767743500499850791, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}

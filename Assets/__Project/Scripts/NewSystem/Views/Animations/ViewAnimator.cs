@@ -1,3 +1,4 @@
+using System.Threading;
 using __Project.Scripts.NewSystem.Enums;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace __Project.Scripts.NewSystem.Views.Animations
         private static float _viewDistance = 50f;
         private static float _viewDuration = 0.3f;
 
-        public static Vector2 GetOffset(TypeAnimation direction, float distance)
+        private static Vector2 GetOffset(TypeAnimation direction, float distance)
         {
             return direction switch
             {
@@ -23,27 +24,27 @@ namespace __Project.Scripts.NewSystem.Views.Animations
             };
         }
 
-        public static async UniTask AnimateRectAsync(RectTransform rect,Vector2 original, TypeAnimation direction, bool toCenter, bool isView = false)
+        public static async UniTask AnimateRectAsync(RectTransform rect,Vector2 original, TypeAnimation direction, bool toCenter, bool isView = false, CancellationToken cancellationToken = default)
         {
-            float distance = isView ? _viewDistance : _subPartDistance;
-            float duration = isView ? _viewDuration : _subPartDuration;
+            var distance = isView ? _viewDistance : _subPartDistance;
+            var duration = isView ? _viewDuration : _subPartDuration;
 
             var canvasGroup = rect.GetComponent<CanvasGroup>() ?? rect.gameObject.AddComponent<CanvasGroup>();
-            Vector2 offset = GetOffset(direction, distance);
+            var offset = GetOffset(direction, distance);
 
-            Vector2 from = toCenter ? original + offset : original;
-            Vector2 to = toCenter ? original : original + offset;
-            float fadeFrom = toCenter ? 0 : 1;
-            float fadeTo = toCenter ? 1 : 0;
+            var from = toCenter ? original + offset : original;
+            var to = toCenter ? original : original + offset;
+            var fadeFrom = toCenter ? 0f : 1f;
+            var fadeTo = toCenter ? 1f : 0f;
 
-            float t = 0;
+            var t = 0f;
             while (t < duration)
             {
-                float progress = t / duration;
+                var progress = t / duration;
                 rect.anchoredPosition = Vector2.Lerp(from, to, progress);
                 canvasGroup.alpha = Mathf.Lerp(fadeFrom, fadeTo, progress);
                 t += Time.deltaTime;
-                await UniTask.Yield();
+                await UniTask.Yield(cancellationToken: cancellationToken);
             }
             rect.anchoredPosition = to;
             canvasGroup.alpha = fadeTo;

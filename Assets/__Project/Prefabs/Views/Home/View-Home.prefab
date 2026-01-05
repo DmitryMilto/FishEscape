@@ -877,6 +877,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1430239986011326347, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3008797874686677423, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1002,6 +1006,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2767743500499850791, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
   m_PrefabInstance: {fileID: 4707475309137283329}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &7535976160453892270 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3008797874686677423, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
+  m_PrefabInstance: {fileID: 4707475309137283329}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8348560824284987289 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3641235119126312600, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
@@ -1019,6 +1028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d13f22de4714671b4a9ff34903d55ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 7535976160453892270}
   _canvasGroup: {fileID: 4806701062033394918}
   _subViews:
   - {fileID: 6835102051878690215}

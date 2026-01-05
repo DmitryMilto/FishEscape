@@ -21,8 +21,8 @@ namespace __Project.Scripts.NewSystem.Editor.View
                 var views = guids
                     .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
                     .Select(path => AssetDatabase.LoadAssetAtPath<GameObject>(path))
-                    .Where(go => go != null && go.GetComponent<ViewBase>() != null)
-                    .Select(go => go.GetComponent<ViewBase>())
+                    .Where(go => go != null && go.GetComponent<AViewBase>() != null)
+                    .Select(go => go.GetComponent<AViewBase>())
                     .ToArray();
 
                 Undo.RecordObject(registry, "Auto Fill View Prefabs");

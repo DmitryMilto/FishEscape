@@ -6,11 +6,13 @@ using __Project.Scripts.NewSystem.Views.Home;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace __Project.Scripts.NewSystem.Views.Gameplay
 {
     public class PopupPauseGame : PopupBase
     {
+        [Inject] private GameManager GameManager;
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _comeBackHomeButton;
 
@@ -23,12 +25,12 @@ namespace __Project.Scripts.NewSystem.Views.Gameplay
 
         private void RestartGame()
         {
-            TDebug.Log($"{_nameLog} : Restarting game");
+            TDebug.Log($"{LogPrefix} : Restarting game");
         }
         private async void ComeBackHome()
         {
-            TDebug.Log($"{_nameLog} : Coming back to home");
-            _manager.CloseViewAsync(this).Forget();
+            TDebug.Log($"{LogPrefix} : Coming back to home");
+            Manager.CloseViewAsync(this).Forget();
             await GameManager.StopGame();
         }
 

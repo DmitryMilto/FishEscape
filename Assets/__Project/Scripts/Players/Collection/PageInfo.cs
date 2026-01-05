@@ -1,5 +1,4 @@
 using FishEscape.Fishs;
-using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,15 +6,12 @@ using UnityEngine.UI;
 public class PageInfo : MonoBehaviour
 {
     private GameConfige gameConfige;
-    [Title("Status Book")]
-    [Title("Image")]
     [SerializeField]
     private Image gameFish;
 
     [SerializeField]
     private Image realFish;
 
-    [Title("Name")]
     [SerializeField]
     private TextMeshProUGUI nameFish;
 
@@ -28,11 +24,11 @@ public class PageInfo : MonoBehaviour
     }
     private void SetInfoAboutFish<T>(T info) where T : Fish
     {
-        gameFish.sprite = info.fish;
-        realFish.sprite = info.RealPhotoFish;
+        gameFish.sprite = info.BookData.Illustration;
+        realFish.sprite = info.BookData.RealPhoto;
 
-        nameFish.text = info.fishName;
-        description.text = info.Description;
+        nameFish.text = info.FishName;
+        description.text = info.BookData.Description;
 
         DefaultFish(info);
     }

@@ -14,11 +14,12 @@ namespace __Project.Scripts.NewSystem.Fishes.Players
 {
     public class PlayerFishBase : BaseFish
     {
-        
+        [SerializeField] protected int _startLives = 3;
         [SerializeField] protected int maxLives = 3;
         [SerializeField] private float invincibleDuration = 3f;
 
         public int MaxLives => maxLives;
+        public int StartLives => _startLives;
 
         public int CurrentLives { get; set; }
         protected Camera mainCamera;

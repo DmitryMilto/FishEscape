@@ -14,10 +14,10 @@ namespace __Project.Scripts.NewSystem.Database.View
         private string _nameLog = $"[{nameof(ViewRegistry)}]";
         #endif
         
-        public ViewBase[] entries;
-        private Dictionary<Type, ViewBase> _cache = new Dictionary<Type, ViewBase>();
+        public AViewBase[] entries;
+        private Dictionary<Type, AViewBase> _cache = new Dictionary<Type, AViewBase>();
 
-        public T GetPrefab<T>() where T : ViewBase
+        public T GetPrefab<T>() where T : AViewBase
         {
             var type = typeof(T);
             if (_cache.TryGetValue(type, out var cached))

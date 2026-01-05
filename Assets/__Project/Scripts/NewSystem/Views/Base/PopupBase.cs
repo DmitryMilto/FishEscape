@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace __Project.Scripts.NewSystem.Views.Base
 {
-    public abstract class PopupBase : ViewBase
+    public abstract class PopupBase : AViewBase
     {
         [SerializeField] protected TypePopupBackground _popupBackground = TypePopupBackground.None;
         [SerializeField] protected Button _closeButton;
@@ -23,8 +23,8 @@ namespace __Project.Scripts.NewSystem.Views.Base
 
         protected virtual void ClosePopup()
         {
-            TDebug.Log($"{_nameLog} : Closing popup {this.name}");
-            _manager.CloseViewAsync(this).Forget();
+            TDebug.Log($"{LogPrefix} : Closing popup {this.name}");
+            Manager.CloseViewAsync(this).Forget();
         }
     }
 }

@@ -7,40 +7,36 @@ using __Project.Scripts.NewSystem.Views.Gameplay;
 using __Project.Scripts.NewSystem.Views.Home;
 using __Project.Scripts.NewSystem.Views.Managers;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 
 namespace __Project.Scripts.NewSystem.Controllers.DataManager
 {
-    public class GameManager : IInitializable
+    [UsedImplicitly]
+    public class GameManager
     {
-        #if UNITY_EDITOR && ALL_DEBUG
+#if UNITY_EDITOR && ALL_DEBUG
         private static string _nameLog = $"<color=magenta>[{nameof(GameManager)}]</color>";
-        #else
+#else
         private static string _nameLog = $"[{nameof(GameManager)}]";
-        #endif
+#endif
 
-        public static AudioController Audio {get; private set; }
-        public static ViewManager ViewManager{ get; private set; }
-        public static LevelData LevelData { get; private set; }
+        public AudioController Audio { get; private set; }
+        public ViewManager ViewManager { get; private set; }
+        public LevelData LevelData { get; private set; }
 
-        [Preserve]
         public GameManager(ViewManager viewManager, AudioController audioController)
         {
             Audio = audioController;
             ViewManager = viewManager;
             TDebug.Log($"{_nameLog}: Creating GameManager...");
         }
-        public void Initialize()
+
+        public async UniTask<bool> StartGame(int index, TypeOceans ocean)
         {
-            TDebug.Log($"{_nameLog}: Initializing GameManager...");
-            // Additional initialization logic can be added here if needed
-        }
-        
-        public static async UniTask<bool> StartGame(int index, TypeOceans ocean)
-        {
-            await ViewManager.OpenViewAsync<ViewSplash>();
+            await ViewManager.OpenViewAsync<AViewSplash>();
             if (index <= 0)
             {
                 TDebug.Log($"{_nameLog}: Invalid fish index {index}. Cannot start game.");
@@ -52,6 +48,7 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
                 TDebug.Log($"{_nameLog}: Invalid ocean type {ocean}. Cannot start game.");
                 return false;
             }
+
             TDebug.Log($"{_nameLog}: Starting game with fish index {index} in ocean {ocean}");
             LevelData = AppData.GetLevel(index, ocean);
             if (LevelData == null)
@@ -59,23 +56,25 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
                 TDebug.Log($"{_nameLog}: Invalid fish index {index}. Cannot start game.");
                 return false;
             }
-            await SceneManager.LoadSceneAsync("Run");
+
+            await SceneManager.LoadSceneAsync("Run").ToUniTask();
             Audio.Play(SoundType.BackgroundGame);
             await ViewManager.OpenViewAsync<ViewGameplay>();
             return true;
         }
 
-        public static async UniTask StopGame()
+        public async UniTask StopGame()
         {
-            await ViewManager.OpenViewAsync<ViewSplash>();
+            await ViewManager.OpenViewAsync<AViewSplash>();
             if (LevelData == null)
             {
                 TDebug.LogError($"{_nameLog}: LevelData is null. Cannot stop game.");
                 return;
             }
-            await SceneManager.LoadSceneAsync("Home");
+
+            await SceneManager.LoadSceneAsync("Home").ToUniTask();
             Audio.Play(SoundType.BackgroundMenu);
-            await ViewManager.OpenViewAsync<ViewHome>();
+            await ViewManager.OpenViewAsync<AViewHome>();
         }
     }
 }

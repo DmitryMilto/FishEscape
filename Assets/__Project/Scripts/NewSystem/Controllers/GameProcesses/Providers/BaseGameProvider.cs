@@ -13,7 +13,7 @@ namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
         protected bool isPauseGame;
         protected bool isGameOver;
         
-        public BaseGameProvider(Transform spawnPoint)
+        protected BaseGameProvider(Transform spawnPoint)
         {
             TDebug.Log($"{_nameLog}: Creating new game provider.");
             _spawnPoint = spawnPoint;

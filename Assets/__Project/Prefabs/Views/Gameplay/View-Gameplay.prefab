@@ -428,6 +428,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1430239986011326347, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3008797874686677423, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
@@ -552,6 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 994b5ac63409467bafd282d04ce0fcbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 5939953221209399356}
   _canvasGroup: {fileID: 469322577014161560}
   _subViews:
   - {fileID: 7885160833996713329}
@@ -560,6 +565,11 @@ MonoBehaviour:
   _pauseButton: {fileID: 4961774429159412276}
   _heartsContainer: {fileID: 4934620940348472722}
   _heartPrefab: {fileID: 3905894019003375166, guid: 2aa48e770b02b4cada0f34e78f6f95dd, type: 3}
+--- !u!223 &5939953221209399356 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3008797874686677423, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}
+  m_PrefabInstance: {fileID: 8912507398023410067}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6757253555847522228 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2767743500499850791, guid: 65e3c9b5db1064859b593a1dc84fa986, type: 3}

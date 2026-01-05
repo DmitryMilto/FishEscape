@@ -5,11 +5,13 @@ using __Project.Scripts.NewSystem.Views.Base;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace __Project.Scripts.NewSystem.Views.Gameplay
 {
-    public class ViewGameOver : ViewBase
+    public class AViewGameOver : AViewBase
     {
+        [Inject] private GameManager GameManager;
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _comeBackHomeButton;
         
@@ -22,14 +24,14 @@ namespace __Project.Scripts.NewSystem.Views.Gameplay
 
         private void RestartGame()
         {
-            TDebug.Log($"{_nameLog} : Restarting game");
-            _manager.OpenViewAsync<ViewGameplay>().Forget();
+            TDebug.Log($"{LogPrefix} : Restarting game");
+            Manager.OpenViewAsync<ViewGameplay>().Forget();
             GlobalEventsManager.Replay();
             
         }
         private async void ComeBackHome()
         {
-            TDebug.Log($"{_nameLog} : Coming back to home");
+            TDebug.Log($"{LogPrefix} : Coming back to home");
             await GameManager.StopGame();
         }
     }

@@ -3,12 +3,14 @@ using __Project.Scripts.NewSystem.Enums.Audios;
 using __Project.Scripts.NewSystem.Tools;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace __Project.Scripts.NewSystem.Elements
 {
     [RequireComponent(typeof(Button))]
     public class UIButtonSound : MonoBehaviour
     {
+        [Inject] private GameManager _gameManager;
         public SoundType soundType = SoundType.ButtonClick;
 
         public 
@@ -19,7 +21,7 @@ namespace __Project.Scripts.NewSystem.Elements
 
         void OnClick()
         {
-            GameManager.Audio.Play(soundType, SoundCategory.Sfx);
+            _gameManager.Audio.Play(soundType, SoundCategory.Sfx);
         }
     }
 }

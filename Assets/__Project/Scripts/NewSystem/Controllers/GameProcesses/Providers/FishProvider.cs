@@ -1,91 +1,123 @@
+using System.Threading;
 using __Project.Scripts.NewSystem.Fishes.Players;
 using __Project.Scripts.NewSystem.Tools;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace __Project.Scripts.NewSystem.Controllers.GameProcesses.Providers
 {
-    public class FishProvider : BaseGameProvider
+    public class PlayerFishManager : BaseGameProvider
     {
-        private readonly PlayerFishBase _player;
+        private readonly PlayerFishBase _playerPrefab;
         private readonly Camera _mainCamera;
-        
-        private PlayerFishBase _currentFish;
-        public PlayerFishBase CurrentFish => _currentFish;
-        
-        public FishProvider(Transform spawnPoint,PlayerFishBase player) : base(spawnPoint)
+        private CancellationTokenSource _moveCts;
+
+        public PlayerFishBase CurrentFish { get; private set; }
+        private const float SpawnOffsetMultiplier = 10f;
+
+        public PlayerFishManager(Transform spawnPoint, PlayerFishBase playerPrefab) : base(spawnPoint)
         {
             _mainCamera = Camera.main;
-            _player = player;
+            _playerPrefab = playerPrefab;
             SpawnFish();
         }
 
-        public override void NewGame()
-        {
-            SpawnFish();
-        }
+        public override void NewGame() => SpawnFish();
 
-        public override void GameOverGame()
-        {
-            DestroyAllFishes();
-        }
+        public override void GameOverGame() => DestroyAllFishes();
 
-        public override void ResumeGame()
-        {
-            SpawnFish();
-        }
+        public override void ResumeGame() => SpawnFish();
 
         public override void Update()
         {
             if (isPauseGame) return;
+            if (Input.GetMouseButton(0))
+            {
+                var mouseWorld = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                MoveToMouse(mouseWorld);
+            }
+
+            var moveY = Input.GetAxis("Vertical");
+            if (Mathf.Abs(moveY) > 0.01f)
+            {
+                MoveY(moveY);
+            }
         }
+
         public override void PauseGame(bool isPause)
         {
             TDebug.Log($"{_nameLog}: Pause game - {isPause}");
             isPauseGame = isPause;
-            _currentFish.SetPause(isPause);
+            CurrentFish?.SetPause(isPause);
         }
 
         public override void DestroyProvider()
         {
             DestroyAllFishes();
+            Dispose();
         }
-        
+
+        private void Dispose()
+        {
+            // Для предотвращения утечек памяти
+            _moveCts?.Cancel();
+            _moveCts = null;
+        }
+
         private void SpawnFish()
         {
-            if (_player == null) return;
-            if (_currentFish != null)
-            {
-                TDebug.Log($"{_nameLog}: Destroying previous fish instance.");
-                UnityEngine.Object.Destroy(_currentFish.gameObject);
-            }
+            if (_playerPrefab == null) return;
 
-            var fishInstance = UnityEngine.Object.Instantiate(_player, _spawnPoint);
+            var fishInstance = Object.Instantiate(_playerPrefab, _spawnPoint);
             var leftX = ScreenBoundsUtils.GetLeftScreenX();
             var sizeX = fishInstance.Sprite.bounds.size.x;
-            fishInstance.transform.position = new Vector3(leftX + (10f * sizeX), 0, 0);
-            _currentFish = fishInstance;
+            fishInstance.transform.position = new Vector3(leftX + (SpawnOffsetMultiplier * sizeX), 0, 0);
+            CurrentFish = fishInstance;
+            TDebug.Log(
+                $"{_nameLog}: Spawned new fish instance {CurrentFish.name} at {CurrentFish.transform.position.x}, {CurrentFish.transform.position.y}, {CurrentFish.transform.position.z}.");
         }
+
         private void DestroyAllFishes()
         {
-            if (_currentFish != null)
+            _moveCts?.Cancel();
+            _moveCts = null;
+            if (CurrentFish == null) return;
+            Object.Destroy(CurrentFish.gameObject);
+            CurrentFish = null;
+        }
+
+        private void MoveY(float moveY)
+        {
+            if (isPauseGame || CurrentFish == null) return;
+            CurrentFish.transform.Translate(Vector3.up * (moveY * CurrentFish.Speed * Time.deltaTime));
+        }
+
+        private void MoveToMouse(Vector3 mouseWorld)
+        {
+            if (isPauseGame || CurrentFish == null) return;
+            _moveCts?.Cancel();
+            _moveCts = new CancellationTokenSource();
+            MoveToYAsync(mouseWorld.y, _moveCts.Token).Forget();
+        }
+
+        private async UniTaskVoid MoveToYAsync(float targetY, CancellationToken token)
+        {
+            var fish = CurrentFish;
+            if (fish == null) return;
+            var pos = fish.transform.position;
+            var target = new Vector3(pos.x, targetY, pos.z);
+
+            while (fish != null && Mathf.Abs(fish.transform.position.y - targetY) > 0.01f)
             {
-                UnityEngine.Object.Destroy(_currentFish.gameObject);
-                _currentFish = null;
+                if (isPauseGame || token.IsCancellationRequested) break;
+                if (fish == null) break;
+                fish.transform.position = Vector3.MoveTowards(
+                    fish.transform.position,
+                    target,
+                    fish.Speed * Time.deltaTime
+                );
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
             }
-        }
-
-        public void MoveY(float moveY)
-        {
-            if (isPauseGame) return;
-            _player.transform.Translate(Vector3.up * (moveY * _currentFish.Speed * Time.deltaTime));
-        }
-
-        public void MouseMove(Vector3 mouseWorld)
-        {
-            if (isPauseGame) return;
-            float targetY = mouseWorld.y;
-            _player.transform.position = new Vector3(_player.transform.position.x, targetY,
-                _player.transform.position.z);
         }
     }
 }

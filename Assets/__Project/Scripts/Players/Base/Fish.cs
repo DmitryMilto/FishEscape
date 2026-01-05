@@ -1,55 +1,44 @@
 using UnityEngine;
 using FishEscape.Enums.Players;
-using Sirenix.OdinInspector;
+using System.Collections.Generic;
 
 namespace FishEscape.Fishs
 {
+    // Данные для игровой части
+    [System.Serializable]
+    public class FishGameData
+    {
+        public float Speed;
+        public int StartHealth;
+        public int MaxHealth;
+        public GameObject Prefab;
+        public List<EnumOcean> Habitats = new List<EnumOcean>();
+        public float MinSpeed;
+        public float MaxSpeed;
+    }
+
+    // Данные для книги (словаря)
+    [System.Serializable]
+    public class FishBookData
+    {
+        public Sprite Illustration;
+        [TextArea]
+        public string Description;
+        public Sprite RealPhoto;
+    }
+
     public abstract class Fish : ScriptableObject
     {
-        [BoxGroup("Basic Info")]
-        [HorizontalGroup("Basic Info/Horizontal")]
-        [HideLabel]
-        [PreviewField(150)]
-        [OnValueChanged("Update")]
-        public Sprite fish;
+        public Sprite FishSprite;
 
-        [VerticalGroup("Basic Info/Horizontal/Vertical")]
-        [LabelWidth(100)]
-        public string fishName;
+        public string FishName;
 
-        [VerticalGroup("Basic Info/Horizontal/Vertical")]
         [SerializeField]
         private TypeFish type;
-
-        [VerticalGroup("Basic Info/Horizontal/Vertical")]
-        [SerializeField]
-        private EnumOcean habitat;
-        public EnumOcean Habitat => habitat;
-
-        [VerticalGroup("Basic Info/Horizontal/Vertical")]
-        [LabelWidth(100)]
-        [TextArea]
-        public string description;
-
-        [BoxGroup("Game Data")]
-        [VerticalGroup("Game Data/Stats")]
-        [LabelWidth(100)]
-        [Range(0.5f, 5f)]
-        [GUIColor(0.3f, 0.5f, 1f)]
-        public float speed = 2f;
-
-
-        [BoxGroup("Game Data")]
-        [VerticalGroup("Game Data/Stats")]
-        [Range(0.5f, 10f)]
-        public float sizeFish = 1f;
-
-        [BoxGroup("Info for Collection")]
-        public Sprite RealPhotoFish;
-
-        [BoxGroup("Info for Collection")]
-        [Multiline(3)]
-        public string Description;
+        
+        public FishGameData GameData = new();
+        
+        public FishBookData BookData = new();
 
         [Space]
         public string Key;
@@ -68,19 +57,18 @@ namespace FishEscape.Fishs
             UnityEditor.AssetDatabase.Refresh();
         }
 
-        [Button]
         private void DeleteKeyInformation()
         {
             if (PlayerPrefs.HasKey(Key))
             {
-                Debug.Log($"<color='yellow'>Deleting date {this.Key}...</color>");
+                Debug.Log($"<color='yellow'>Удаление данных {this.Key}...</color>");
                 PlayerPrefs.DeleteKey(Key);
-                if (!PlayerPrefs.HasKey(Key)) Debug.Log($"<color='green'>Date {this.Key} was deleted successfully!</color>");
-                else Debug.Log($"<color='red'>Date {this.Key} has not been deleted!</color>");
+                if (!PlayerPrefs.HasKey(Key)) Debug.Log($"<color='green'>Данные {this.Key} успешно удалены!</color>");
+                else Debug.Log($"<color='red'>Данные {this.Key} не были удалены!</color>");
             }
             else
             {
-                Debug.Log($"<color='red'>No data {this.Key} found!</color>");
+                Debug.Log($"<color='red'>Данные {this.Key} не найдены!</color>");
             }
         }
 #endif

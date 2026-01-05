@@ -1,6 +1,4 @@
 using Scripts.Save;
-using Sirenix.OdinInspector;
-using System;
 using UnityEngine;
 
 namespace FishEscape.Fishs
@@ -8,104 +6,57 @@ namespace FishEscape.Fishs
     [CreateAssetMenu(menuName = "FishEscape/Fishs/Player", fileName = "Player", order = 1)]
     public class PlayerFish : Fish
     {
-        [BoxGroup("Game Data")]
-        [VerticalGroup("Game Data/Stats")]
-        [LabelWidth(100)]
         [Range(1, 5)]
-        [GUIColor(0.5f, 1f, 0.5f)]
-        public int health = 1;
+        public int Health => GameData.StartHealth;
 
-        [Space]
-        [SerializeField]
-        public int MaxPazzle;
-
-        public int Pazzle
-        {
-            get
-            {
-                return saveData.TargetPuzzle;
-            }
-            set
-            {
-                if (value < MaxPazzle)
-                    saveData.TargetPuzzle = value;
-                else
-                {
-                    if (StatusCard == EnumStatusCard.Close)
-                        StatusCard = EnumStatusCard.PreClose;
-                }
-            }
-        }
-        public override EnumStatusCard StatusCard
-        {
-            get
-            {
-                if (saveData.TargetPuzzle == MaxPazzle)
-                {
-                    if (saveData.StatusCard == EnumStatusCard.Close)
-                        saveData.StatusCard = EnumStatusCard.PreClose;
-                }
-                else
-                {
-                    if (saveData.StatusCard == EnumStatusCard.PreOpen)
-                        saveData.StatusCard = EnumStatusCard.PreClose;
-                }
-                return saveData.StatusCard;
-            }
-            set
-            {
-                saveData.StatusCard = value;
-            }
-        }
+        public int MaxHealth => GameData.MaxHealth;
 
         private PlayerSaveData _saveData;
-        private PlayerSaveData saveData
+
+        public int PuzzleCount
         {
-            get
-            {
-                if(_saveData == null)
-                {
-                    Debug.Log($"{this.fishName} data null");
-                    return null;
-                }
-                return _saveData;
-            }
+            get => _saveData?.TargetPuzzle ?? 0;
             set
             {
-                _saveData = value;
+                if (_saveData == null) return;
+                if (value < MaxHealth)
+                    _saveData.TargetPuzzle = value;
+                else if (StatusCard == EnumStatusCard.Close)
+                    StatusCard = EnumStatusCard.PreClose;
             }
         }
+
+        public override EnumStatusCard StatusCard
+        {
+            get => _saveData?.StatusCard ?? EnumStatusCard.None;
+            set
+            {
+                if (_saveData != null)
+                    _saveData.StatusCard = value;
+            }
+        }
+
         public override void LoadData()
         {
-            Debug.Log($"Loading Data {this.fishName}...");
-            if (PlayerPrefs.HasKey(Key))
+            _saveData = SaveService.Instance.LoadPlayerData(Key) ?? new PlayerSaveData
             {
-                var data = PlayerPrefs.GetString(Key);
-                saveData = JsonUtility.FromJson<PlayerSaveData>(data);
-            }
-            else
-            {
-                saveData = new PlayerSaveData
-                {
-                    TargetPuzzle = 0,
-                    StatusCard = EnumStatusCard.Close,
-                };
-                SaveData();
-            }
+                TargetPuzzle = 0,
+                StatusCard = EnumStatusCard.Close,
+            };
         }
+
         public override void SaveData()
         {
-            Debug.Log($"Saving Data {this.fishName}...");
-            var data = JsonUtility.ToJson(saveData);
-            PlayerPrefs.SetString(Key, data);
+            if (_saveData != null)
+                SaveService.Instance.SavePlayerData(Key, _saveData);
         }
+
         public override void Update()
         {
-            if (this.fish != null)
+            if (FishSprite != null)
             {
-                this.fishName = this.fish.name;
-                var key = this.fish.name.Trim();
-                this.Key = key;
+                FishName = FishSprite.name;
+                Key = FishName.Trim();
             }
         }
     }

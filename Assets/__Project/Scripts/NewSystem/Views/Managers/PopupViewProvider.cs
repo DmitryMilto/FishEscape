@@ -41,23 +41,23 @@ namespace __Project.Scripts.NewSystem.Views.Managers
             _resolver = resolver;
         }
 
-        public async UniTask<T> OpenViewAsync<T>() where T : ViewBase
+        public async UniTask<T> OpenViewAsync<T>() where T : AViewBase
         {
             var type = typeof(T);
 
             if (_activePopup != null && _activePopup.GetType() == type)
             {
                 TDebug.Log($"{_nameLog} Popup {type.Name} is already open, skipping.");
-                return (T)(ViewBase)_activePopup;
+                return (T)(AViewBase)_activePopup;
             }
 
             // Скрываем subview у активного полноэкранного окна
-            if (_fullScreenProvider.ActiveView != null)
-                await _fullScreenProvider.ActiveView.HideAllSubViews();
+            if (_fullScreenProvider.ActiveAView != null)
+                await _fullScreenProvider.ActiveAView.HideAllSubViewsAsync();
 
             if (_activePopup != null)
             {
-                await _activePopup.HideAllSubViews();
+                await _activePopup.HideAllSubViewsAsync();
                 _popupStack.Push(_activePopup);
                 _activePopup.gameObject.SetActive(false);
             }
@@ -82,10 +82,10 @@ namespace __Project.Scripts.NewSystem.Views.Managers
 
             TDebug.Log($"{_nameLog} Popup opened: {_activePopup.name}");
 
-            return (T)(ViewBase)_activePopup;
+            return (T)(AViewBase)_activePopup;
         }
 
-        public T OpenView<T>(T view) where T : ViewBase
+        public T OpenView<T>(T view) where T : AViewBase
         {
             var popup = view as PopupBase;
             if (popup == null)
@@ -98,8 +98,8 @@ namespace __Project.Scripts.NewSystem.Views.Managers
             }
 
             // Скрываем subview у активного полноэкранного окна
-            if (_fullScreenProvider.ActiveView != null)
-                _fullScreenProvider.ActiveView.HideAllSubViews().Forget();
+            if (_fullScreenProvider.ActiveAView != null)
+                _fullScreenProvider.ActiveAView.HideAllSubViewsAsync().Forget();
 
             if (_activePopup != null)
             {
@@ -123,7 +123,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
             return popup as T;
         }
 
-        public async UniTask CloseViewAsync<T>(T view) where T : ViewBase
+        public async UniTask CloseViewAsync<T>(T view) where T : AViewBase
         {
             var popup = view as PopupBase;
             if (popup == null)
@@ -134,10 +134,11 @@ namespace __Project.Scripts.NewSystem.Views.Managers
 
             if (_activePopup == popup)
             {
-                await _activePopup.HideAllSubViews();
+                await _activePopup.HideAllSubViewsAsync();
                 await _activePopup.CloseAsync();
                 _activePopup.gameObject.SetActive(false);
-                TDebug.Log($"{_nameLog} Popup closed: {_activePopup.name}");
+                UnityEngine.Object.Destroy(_activePopup.gameObject); // Удаляем объект
+                TDebug.Log($"{_nameLog} Popup closed and destroyed: {_activePopup.name}");
 
                 _activePopup = _popupStack.Count > 0 ? _popupStack.Pop() : null;
                 if (_activePopup != null)
@@ -153,20 +154,21 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 {
                     HandleBackgrounds(TypePopupBackground.None, 0);
                     // Возвращаем subview у активного полноэкранного окна
-                    if (_fullScreenProvider.ActiveView != null)
-                        await _fullScreenProvider.ActiveView.ShowAllSubViews();
+                    if (_fullScreenProvider.ActiveAView != null)
+                        await _fullScreenProvider.ActiveAView.ShowAllSubViewsAsync();
                 }
             }
             else
             {
-                await popup.HideAllSubViews();
+                await popup.HideAllSubViewsAsync();
                 await popup.CloseAsync();
                 popup.gameObject.SetActive(false);
-                TDebug.Log($"{_nameLog} Popup closed: {popup.name}");
+                UnityEngine.Object.Destroy(popup.gameObject); // Удаляем объект
+                TDebug.Log($"{_nameLog} Popup closed and destroyed: {popup.name}");
             }
         }
 
-        public void CloseView<T>(T view) where T : ViewBase
+        public void CloseView<T>(T view) where T : AViewBase
         {
             var popup = view as PopupBase;
             if (popup == null)
@@ -179,6 +181,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
             {
                 _activePopup.Close();
                 _activePopup.gameObject.SetActive(false);
+                UnityEngine.Object.Destroy(_activePopup.gameObject); // Удаляем объект
                 TDebug.Log($"{_nameLog} Popup closed instantly: {_activePopup.name}");
 
                 _activePopup = _popupStack.Count > 0 ? _popupStack.Pop() : null;
@@ -195,19 +198,20 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 {
                     HandleBackgrounds(TypePopupBackground.None, 0);
                     // Возвращаем subview у активного полноэкранного окна
-                    if (_fullScreenProvider.ActiveView != null)
-                        _fullScreenProvider.ActiveView.ShowAllSubViews().Forget();
+                    if (_fullScreenProvider.ActiveAView != null)
+                        _fullScreenProvider.ActiveAView.ShowAllSubViewsAsync().Forget();
                 }
             }
             else
             {
                 popup.Close();
                 popup.gameObject.SetActive(false);
+                UnityEngine.Object.Destroy(_activePopup.gameObject); // Удаляем объект
                 TDebug.Log($"{_nameLog} Popup closed instantly: {popup.name}");
             }
         }
 
-        public T GetView<T>() where T : ViewBase
+        public T GetView<T>() where T : AViewBase
         {
             return _registry.GetPrefab<T>();
         }

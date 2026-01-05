@@ -5,11 +5,11 @@ namespace __Project.Scripts.NewSystem.Interfaces.View
 {
     public interface IViewProvider
     {
-        UniTask<T> OpenViewAsync<T>() where T : ViewBase;
-        UniTask CloseViewAsync<T>(T view) where T : ViewBase;
+        UniTask<T> OpenViewAsync<T>() where T : AViewBase;
+        UniTask CloseViewAsync<T>(T view) where T : AViewBase;
         
-        T OpenView<T>(T view) where T : ViewBase;
-        void CloseView<T>(T view) where T : ViewBase;
-        T GetView<T>() where T : ViewBase;
+        T OpenView<T>(T view) where T : AViewBase;
+        void CloseView<T>(T view) where T : AViewBase;
+        T GetView<T>() where T : AViewBase;
     }
 }

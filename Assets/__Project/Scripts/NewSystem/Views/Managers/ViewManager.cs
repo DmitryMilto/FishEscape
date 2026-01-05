@@ -27,23 +27,25 @@ namespace __Project.Scripts.NewSystem.Views.Managers
 
         private FullScreenViewProvider _fullScreenProvider;
         private PopupViewProvider _popupProvider;
+        private SplashProvider _splashProvider;
 
-        private Dictionary<Type, ViewBase> _cache = new();
+        private Dictionary<Type, AViewBase> _cache = new();
         
         public void Awake()
         {
             _fullScreenProvider = new FullScreenViewProvider(_registry, _fullScreenRoot, _resolver);
             _popupProvider = new PopupViewProvider(_registry, _fullScreenProvider, _popupRoot, _shadowCanvas, _blurCanvas, _resolver);
+            // _splashProvider = new SplashProvider(_registry, _resolver);
         }
         // Открытие с анимацией
-        public async UniTask<T> OpenViewAsync<T>() where T : ViewBase
+        public async UniTask<T> OpenViewAsync<T>() where T : AViewBase
         {
             var type = typeof(T);
             var prefab = _registry.GetPrefab<T>();
             if (prefab == null)
                 throw new Exception($"{_logName} No prefab found for type {type.Name}");
 
-            switch (prefab.TypeView)
+            switch (prefab.ViewType)
             {
                 case ETypeView.FullScreen:
                     var fullScreen = await _fullScreenProvider.OpenViewAsync<T>();
@@ -56,18 +58,18 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                     // popup.InitializeViews(this);
                     return popup as T;
                 default:
-                    throw new Exception($"{_logName} Unknown view type: {prefab.TypeView}");
+                    throw new Exception($"{_logName} Unknown view type: {prefab.ViewType}");
             }
         }
 
         // Быстрое открытие (без анимации)
-        public T OpenView<T>(T view) where T : ViewBase
+        public T OpenView<T>(T view) where T : AViewBase
         {
             var type = typeof(T);
             if (view == null)
                 throw new ArgumentNullException($"{_logName} View is null");
 
-            switch (view.TypeView)
+            switch (view.ViewType)
             {
                 case ETypeView.FullScreen:
                     var fullScreen = _fullScreenProvider.OpenView(view);
@@ -80,10 +82,33 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                     // popup.InitializeViews(this);
                     return popup as T;
                 default:
-                    throw new Exception($"{_logName} Unknown view type: {view.TypeView}");
+                    throw new Exception($"{_logName} Unknown view type: {view.ViewType}");
             }
         }
-        public async UniTask CloseViewAsync<T>(T view = null) where T : ViewBase
+        public T OpenView<T>() where T : AViewBase
+        {
+            var type = typeof(T);
+            var prefab = _registry.GetPrefab<T>();
+            if (prefab == null)
+                throw new Exception($"{_logName} No prefab found for type {type.Name}");
+
+            switch (prefab.ViewType)
+            {
+                case ETypeView.FullScreen:
+                    var fullScreen = _fullScreenProvider.OpenView(prefab as T);
+                    _cache[type] = fullScreen;
+                    // fullScreen.InitializeViews(this);
+                    return fullScreen as T;
+                case ETypeView.Popup:
+                    var popup = _popupProvider.OpenView(prefab as T);
+                    _cache[type] = popup;
+                    // popup.InitializeViews(this);
+                    return popup as T;
+                default:
+                    throw new Exception($"{_logName} Unknown view type: {prefab.ViewType}");
+            }
+        }
+        public async UniTask CloseViewAsync<T>(T view = null) where T : AViewBase
         {
             var type = typeof(T);
             if (view == null)
@@ -102,7 +127,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 return;
             }
 
-            switch (view.TypeView)
+            switch (view.ViewType)
             {
                 case ETypeView.FullScreen:
                     await _fullScreenProvider.CloseViewAsync(view);
@@ -111,11 +136,11 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                     await _popupProvider.CloseViewAsync(view);
                     break;
                 default:
-                    throw new Exception($"{_logName} Unknown view type: {view.TypeView}");
+                    throw new Exception($"{_logName} Unknown view type: {view.ViewType}");
             }
         }
 
-        public void CloseView<T>(T view = null) where T : ViewBase
+        public void CloseView<T>(T view = null) where T : AViewBase
         {
             var type = typeof(T);
             if (view == null)
@@ -132,7 +157,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 TDebug.Log($"{_logName} View is null, cannot close.");
                 return;
             }
-            switch (view.TypeView)
+            switch (view.ViewType)
             {
                 case ETypeView.FullScreen:
                     _fullScreenProvider.CloseView(view);
@@ -141,7 +166,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                     _popupProvider.CloseView(view);
                     break;
                 default:
-                    throw new Exception($"{_logName} Unknown view type: {view.TypeView}");
+                    throw new Exception($"{_logName} Unknown view type: {view.ViewType}");
             }
         }
     }

@@ -44,7 +44,7 @@ namespace __Project.Scripts.NewSystem.DataManager
             
             await SceneManager.LoadSceneAsync("Home", LoadSceneMode.Single);
             audioController.Play(SoundType.BackgroundMenu);
-            var home = await _viewManager.OpenViewAsync<ViewHome>();
+            var home = await _viewManager.OpenViewAsync<AViewHome>();
         }
     }
 }

@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 
@@ -6,7 +5,6 @@ using UnityEngine;
 public class CollectionInfo
 {
     [SerializeField]
-    [PreviewField(45)]
     private Sprite realImage;
 
     [SerializeField]

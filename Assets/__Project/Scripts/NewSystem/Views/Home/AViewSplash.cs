@@ -2,7 +2,7 @@ using __Project.Scripts.NewSystem.Views.Base;
 
 namespace __Project.Scripts.NewSystem.Views.Home
 {
-    public class ViewSplash : ViewBase
+    public class AViewSplash : AViewBase
     {
         
     }

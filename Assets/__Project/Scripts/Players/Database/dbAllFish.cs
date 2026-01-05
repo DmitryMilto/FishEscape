@@ -1,5 +1,4 @@
 using FishEscape.Fishs;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,18 +14,18 @@ public class dbAllFish : ScriptableObject
     public List<PlayerFish> Player => fishs;
     public List<EnemyFish> Enemy => enemies;
 
-    [Button]
-    private void SortPlayer()
-    {
-        fishs.Sort(delegate (PlayerFish x, PlayerFish y)
-        {
-            if (x == null && y == null) return 0;
-            else if (x == null) return -1;
-            else if (y == null) return 1;
-            else
-                return x.MaxPazzle.CompareTo(y.MaxPazzle);
-        });
-    }
+    // [Button]
+    // private void SortPlayer()
+    // {
+    //     fishs.Sort(delegate (PlayerFish x, PlayerFish y)
+    //     {
+    //         if (x == null && y == null) return 0;
+    //         else if (x == null) return -1;
+    //         else if (y == null) return 1;
+    //         // else
+    //         //     return x.MaxPazzle.CompareTo(y.MaxPazzle);
+    //     });
+    // }
 
     public void LoadData()
     {
@@ -51,9 +50,8 @@ public class dbAllFish : ScriptableObject
         }
     }
 
-    [Button]
     public List<EnemyFish> Enemies(EnumOcean ocean)
     {
-        return Enemy.FindAll(x => x.Habitat == ocean);
+        return Enemy.FindAll(x => x.Habitats.Contains(ocean));
     }
 }

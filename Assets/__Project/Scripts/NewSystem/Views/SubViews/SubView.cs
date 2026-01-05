@@ -1,3 +1,4 @@
+using System.Threading;
 using __Project.Scripts.NewSystem.Enums;
 using __Project.Scripts.NewSystem.Interfaces.Animations;
 using __Project.Scripts.NewSystem.Views.Animations;
@@ -20,14 +21,14 @@ namespace __Project.Scripts.NewSystem.Views.SubViews
             _anchored = _rect.anchoredPosition;
         }
         
-        public async UniTask PlayOpenAsync()
+        public async UniTask PlayOpenAsync(CancellationToken cancellationToken)
         {
-            await ViewAnimator.AnimateRectAsync(_rect,_anchored, _direction, toCenter: true, isView: false);
+            await ViewAnimator.AnimateRectAsync(_rect,_anchored, _direction, toCenter: true, isView: false, cancellationToken);
         }
 
-        public async UniTask PlayCloseAsync()
+        public async UniTask PlayCloseAsync(CancellationToken cancellationToken)
         {
-            await ViewAnimator.AnimateRectAsync(_rect, _anchored, _direction, toCenter: false, isView: false);
+            await ViewAnimator.AnimateRectAsync(_rect, _anchored, _direction, toCenter: false, isView: false, cancellationToken);
         }
 
         public void PlayOpen()

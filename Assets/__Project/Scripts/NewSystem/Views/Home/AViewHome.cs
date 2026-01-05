@@ -5,11 +5,13 @@ using __Project.Scripts.NewSystem.Views.Base;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace __Project.Scripts.NewSystem.Views.Home
 {
-    public class ViewHome: ViewBase
+    public class AViewHome: AViewBase
     {
+        [Inject] private GameManager GameManager;
         [SerializeField] private Button _buttonShop;
         [SerializeField] private Button _buttonSettings;
         [SerializeField] private Button _buttonAvatars;
@@ -40,31 +42,31 @@ namespace __Project.Scripts.NewSystem.Views.Home
 
         private void OpenShop()
         {
-            TDebug.Log($"{_nameLog} Open Shop");
-            _manager.OpenViewAsync<PopupShop>().Forget();
+            TDebug.Log($"{LogPrefix} Open Shop");
+            Manager.OpenViewAsync<PopupShop>().Forget();
         }
         private void OpenSettings()
         {
-            TDebug.Log($"{_nameLog} Open Settings");
-            _manager.OpenViewAsync<PopupSetting>().Forget();
+            TDebug.Log($"{LogPrefix} Open Settings");
+            Manager.OpenViewAsync<PopupSetting>().Forget();
         }
         private void OpenAvatars()
         {
-            TDebug.Log($"{_nameLog} Open Avatars");
+            TDebug.Log($"{LogPrefix} Open Avatars");
         }
         private void OpenLibrary()
         {
-            TDebug.Log($"{_nameLog} Open Library");
-            _manager.OpenViewAsync<PopupBook>().Forget();
+            TDebug.Log($"{LogPrefix} Open Library");
+            Manager.OpenViewAsync<PopupBook>().Forget();
         }
         private void OpenCompany()
         {
-            TDebug.Log($"{_nameLog} Open Company");
+            TDebug.Log($"{LogPrefix} Open Company");
             GameManager.StartGame(1, TypeOceans.IndianOcean).Forget();
         }
         private void OpenFree()
         {
-            TDebug.Log($"{_nameLog} Open Free");
+            TDebug.Log($"{LogPrefix} Open Free");
         }
     }
 }

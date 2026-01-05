@@ -19,9 +19,9 @@ namespace __Project.Scripts.NewSystem.Views.Managers
 #endif
         private readonly ViewRegistry _registry;
         private readonly Transform _fullScreenRoot;
-        private readonly Dictionary<Type, ViewBase> _views = new();
-        private ViewBase _activeView;
-        public ViewBase ActiveView => _activeView;
+        private readonly Dictionary<Type, AViewBase> _views = new();
+        private AViewBase _activeAView;
+        public AViewBase ActiveAView => _activeAView;
 
         private readonly IObjectResolver _resolver;
 
@@ -32,23 +32,23 @@ namespace __Project.Scripts.NewSystem.Views.Managers
             _resolver = resolver;
         }
 
-        public async UniTask<T> OpenViewAsync<T>() where T : ViewBase
+        public async UniTask<T> OpenViewAsync<T>() where T : AViewBase
         {
             var type = typeof(T);
 
             // Если уже открыт нужный тип — ничего не делаем
-            if (_activeView != null && _activeView.GetType() == type)
+            if (_activeAView != null && _activeAView.GetType() == type)
             {
                 TDebug.Log($"{_nameLog} View {type.Name} is already open, skipping.");
-                return (T)_activeView;
+                return (T)_activeAView;
             }
 
             // Закрываем текущее окно с анимацией
-            if (_activeView != null)
+            if (_activeAView != null)
             {
-                await _activeView.CloseAsync();
-                _activeView.gameObject.SetActive(false);
-                TDebug.Log($"{_nameLog} Previous view closed: {_activeView.name}");
+                await _activeAView.CloseAsync();
+                _activeAView.gameObject.SetActive(false);
+                TDebug.Log($"{_nameLog} Previous view closed: {_activeAView.name}");
             }
 
             // Получаем из кэша или создаём
@@ -62,33 +62,33 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 _views[type] = view;
             }
 
-            _activeView = view;
-            _activeView.transform.SetParent(_fullScreenRoot, false);
-            _activeView.gameObject.SetActive(true);
+            _activeAView = view;
+            _activeAView.transform.SetParent(_fullScreenRoot, false);
+            _activeAView.gameObject.SetActive(true);
 
-            await _activeView.OpenAsync();
+            await _activeAView.OpenAsync();
 
-            TDebug.Log($"{_nameLog} View opened: {_activeView.name}");
+            TDebug.Log($"{_nameLog} View opened: {_activeAView.name}");
 
-            return (T)_activeView;
+            return (T)_activeAView;
         }
 
-        public T OpenView<T>(T view) where T : ViewBase
+        public T OpenView<T>(T view) where T : AViewBase
         {
             var type = typeof(T);
 
-            if (_activeView != null && _activeView.GetType() == type)
+            if (_activeAView != null && _activeAView.GetType() == type)
             {
                 TDebug.Log($"{_nameLog} View {type.Name} is already open, skipping.");
-                return (T)_activeView;
+                return (T)_activeAView;
             }
 
             // Быстро закрываем текущее окно
-            if (_activeView != null)
+            if (_activeAView != null)
             {
-                _activeView.Close();
-                _activeView.gameObject.SetActive(false);
-                TDebug.Log($"{_nameLog} Previous view closed instantly: {_activeView.name}");
+                _activeAView.Close();
+                _activeAView.gameObject.SetActive(false);
+                TDebug.Log($"{_nameLog} Previous view closed instantly: {_activeAView.name}");
             }
 
             // Кэшируем, если не было
@@ -97,45 +97,45 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 _views[type] = view;
             }
 
-            _activeView = view;
-            _activeView.transform.SetParent(_fullScreenRoot, false);
-            _activeView.gameObject.SetActive(true);
+            _activeAView = view;
+            _activeAView.transform.SetParent(_fullScreenRoot, false);
+            _activeAView.gameObject.SetActive(true);
 
-            _activeView.Open();
-            TDebug.Log($"{_nameLog} View opened instantly: {_activeView.name}");
+            _activeAView.Open();
+            TDebug.Log($"{_nameLog} View opened instantly: {_activeAView.name}");
 
-            return (T)_activeView;
+            return (T)_activeAView;
         }
 
-        public async UniTask CloseViewAsync<T>(T view) where T : ViewBase
+        public async UniTask CloseViewAsync<T>(T view) where T : AViewBase
         {
-            if (_activeView == null)
+            if (_activeAView == null)
             {
                 TDebug.Log($"{_nameLog} No active view to close.");
                 return;
             }
 
-            await _activeView.CloseAsync();
-            _activeView.gameObject.SetActive(false);
-            TDebug.Log($"{_nameLog} View closed: {_activeView.name}");
-            _activeView = null;
+            await _activeAView.CloseAsync();
+            _activeAView.gameObject.SetActive(false);
+            TDebug.Log($"{_nameLog} View closed: {_activeAView.name}");
+            _activeAView = null;
         }
 
-        public void CloseView<T>(T view) where T : ViewBase
+        public void CloseView<T>(T view) where T : AViewBase
         {
-            if (_activeView == null)
+            if (_activeAView == null)
             {
                 TDebug.Log($"{_nameLog} No active view to close.");
                 return;
             }
 
-            _activeView.Close();
-            _activeView.gameObject.SetActive(false);
-            TDebug.Log($"{_nameLog} View closed instantly: {_activeView.name}");
-            _activeView = null;
+            _activeAView.Close();
+            _activeAView.gameObject.SetActive(false);
+            TDebug.Log($"{_nameLog} View closed instantly: {_activeAView.name}");
+            _activeAView = null;
         }
 
-        public T GetView<T>() where T : ViewBase
+        public T GetView<T>() where T : AViewBase
         {
             var type = typeof(T);
             if (_views.TryGetValue(type, out var cached) && cached != null)

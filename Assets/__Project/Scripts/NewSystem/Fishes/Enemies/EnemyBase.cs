@@ -14,6 +14,8 @@ namespace __Project.Scripts.NewSystem.Fishes.Enemies
         protected List<IEffectEnemy> _effectBehaviours = new();
         
         public void SetSpeed(float newSpeed) => fishSpeed = newSpeed;
+        public float MaxSpeed { get; set; } = 10f;
+        public float MinSpeed { get; set; } = 2f;
     
         protected float leftX => ScreenBoundsUtils.GetLeftScreenX();
         protected virtual float size => spriteRenderer?.sprite.bounds.size.x ?? 0f;
