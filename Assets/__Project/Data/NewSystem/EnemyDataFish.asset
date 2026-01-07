@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a0a75449e5469790d4b66b7e8cf5f7, type: 3}
+  m_Name: EnemyDataFish
+  m_EditorClassIdentifier: 
+  _objects:
+  - {fileID: 8986408336958194325, guid: 26e99044561e94642b808da0303df232, type: 3}
+  - {fileID: 1305306934803669190, guid: c2a5fa7be2860446482b29c98c22cfcb, type: 3}
+  - {fileID: 6999126880537643854, guid: 23d245d509a7b4cfd843f61288ae9c2d, type: 3}

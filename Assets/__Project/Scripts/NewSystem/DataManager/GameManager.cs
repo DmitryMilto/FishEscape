@@ -22,13 +22,15 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
 #else
         private static string _nameLog = $"[{nameof(GameManager)}]";
 #endif
+        private readonly AppData _appData;
 
         public AudioController Audio { get; private set; }
         public ViewManager ViewManager { get; private set; }
         public LevelData LevelData { get; private set; }
 
-        public GameManager(ViewManager viewManager, AudioController audioController)
+        public GameManager(AppData appData, ViewManager viewManager, AudioController audioController)
         {
+            _appData = appData;
             Audio = audioController;
             ViewManager = viewManager;
             TDebug.Log($"{_nameLog}: Creating GameManager...");
@@ -37,11 +39,6 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
         public async UniTask<bool> StartGame(int index, TypeOceans ocean)
         {
             await ViewManager.OpenViewAsync<AViewSplash>();
-            if (index <= 0)
-            {
-                TDebug.Log($"{_nameLog}: Invalid fish index {index}. Cannot start game.");
-                return false;
-            }
 
             if (ocean == TypeOceans.None)
             {
@@ -50,7 +47,7 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
             }
 
             TDebug.Log($"{_nameLog}: Starting game with fish index {index} in ocean {ocean}");
-            LevelData = AppData.GetLevel(index, ocean);
+            LevelData = _appData.GetLevel(index, ocean);
             if (LevelData == null)
             {
                 TDebug.Log($"{_nameLog}: Invalid fish index {index}. Cannot start game.");

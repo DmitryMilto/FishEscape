@@ -92,6 +92,7 @@ PolygonCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693299622693068476}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -115,7 +116,8 @@ PolygonCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,8 +226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 4043126461983755685}
-  oceans: 1
   fishSpeed: 1.5
+  _oceans: 01000000
 --- !u!212 &4043126461983755685 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5099606925193045461, guid: ca76e0946a899fb4d97d93c38bed4ea4, type: 3}

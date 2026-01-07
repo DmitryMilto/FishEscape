@@ -12,23 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c7cb8dfb44dfd4cb7fc01da867ae33, type: 3}
   m_Name: Shark
   m_EditorClassIdentifier: 
-  fish: {fileID: 21300000, guid: 68c52cbca50be6241901f6249ae2e944, type: 3}
-  fishName: 'Tiger shark  '
+  FishSprite: {fileID: 0}
+  FishName: 
   type: 2
-  habitat: 1
-  description: 
-  speed: 2
-  sizeFish: 2
-  RealPhotoFish: {fileID: 21300000, guid: 94411bd3bf643944687943d7b546e56a, type: 3}
-  Description: "The tiger shark gets its name from the characteristic vertical bars
-    that cover the sides of its body.\_Reaching lengths of at least 18 feet (5.5
-    m) and 2000 pounds (nearly a metric tonne).\r\n\r\nTiger sharks are known for
-    eating almost anything, including other sharks, fish, seabirds, dolphins, sea
-    turtles, rays and crustaceans.1\_They have also been found with many non-food
-    items in their stomachs, including metal objects, plastics, burlap sacks and
-    other refuse.\r\n"
+  GameData:
+    Speed: 2
+    StartHealth: 1
+    MaxHealth: 5
+    Prefab: {fileID: 0}
+    Habitats: 01000000
+    MinSpeed: 1
+    MaxSpeed: 3
+  BookData:
+    Illustration: {fileID: 0}
+    Description: 
+    RealPhoto: {fileID: 0}
   Key: Shark
-  damage: 1
-  scale: 0
-  list: 
-  typeMove: 3
+  Damage: 1

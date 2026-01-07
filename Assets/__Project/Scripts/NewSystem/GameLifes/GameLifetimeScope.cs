@@ -2,8 +2,10 @@ using __Project.Scripts.NewSystem.Controllers.Audios;
 using __Project.Scripts.NewSystem.Controllers.DataManager;
 using __Project.Scripts.NewSystem.Database;
 using __Project.Scripts.NewSystem.Database.Audios;
+using __Project.Scripts.NewSystem.Database.Fishes;
 using __Project.Scripts.NewSystem.Database.View;
 using __Project.Scripts.NewSystem.DataManager;
+using __Project.Scripts.NewSystem.DataManager.Providers;
 using __Project.Scripts.NewSystem.Enums;
 using __Project.Scripts.NewSystem.Views.Managers;
 using UnityEngine;
@@ -16,6 +18,11 @@ namespace __Project.Scripts.NewSystem.GameLifes
     {
         [SerializeField] private SoundDatabase soundDatabase;
         [SerializeField] private ViewRegistry viewRegistry;
+        
+        [Header("ScriptableObjects")]
+        [SerializeField] private PlayersDataFish playersDataFish;
+        [SerializeField] private EnemyDataFish enemyDataFish;
+        [SerializeField] private BoosterDataFish boosterDataFish;
         protected override void Configure(IContainerBuilder builder)
         {
             base.Configure(builder);
@@ -35,6 +42,7 @@ namespace __Project.Scripts.NewSystem.GameLifes
                 .AsImplementedInterfaces();
 
             builder.Register<AppData>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<LevelsProvider>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<GameManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             
             var fishBookDatabase = Resources.Load<FishBookDatabase>("FishBookDatabase");
@@ -43,7 +51,16 @@ namespace __Project.Scripts.NewSystem.GameLifes
             
             builder.Register<IFileManager, FileManager>(Lifetime.Singleton);
 
+            InjectScriptableObjects(builder);
+            
             builder.RegisterInstance(soundDatabase);
+        }
+
+        private void InjectScriptableObjects(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(playersDataFish);
+            builder.RegisterInstance(enemyDataFish);
+            builder.RegisterInstance(boosterDataFish);
         }
     }
 }

@@ -50,3 +50,6 @@ MonoBehaviour:
   autoInjectGameObjects: []
   soundDatabase: {fileID: 11400000, guid: da93d19d57cf744f4812f69bef6986f6, type: 2}
   viewRegistry: {fileID: 11400000, guid: a2ed721a55222400088907764fb57096, type: 2}
+  playersDataFish: {fileID: 11400000, guid: 840eb085af5ca47be903747ba898c961, type: 2}
+  enemyDataFish: {fileID: 11400000, guid: e0586ce0e53c24a5c8d03ac150dfd79c, type: 2}
+  boosterDataFish: {fileID: 11400000, guid: d840ab39d151f4019b32bdecf2417668, type: 2}

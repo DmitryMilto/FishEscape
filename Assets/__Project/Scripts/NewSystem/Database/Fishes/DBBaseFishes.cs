@@ -26,7 +26,7 @@ namespace __Project.Scripts.NewSystem.Database.Fishes
                 return cachedFish;
             }
 
-            var fish = fishes.Find(f => f.Name == name && f.Oceans == ocean);
+            var fish = fishes.Find(f => f.Name == name && f.IsInOcean(ocean));
             if (fish == null)
             {
                 TDebug.LogError($"{_nameLog}: Fish '{name}' not found in ocean '{ocean}'.");

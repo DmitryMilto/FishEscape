@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 758fcb84bc96bcf43894f1bd967ab982, type: 3}
-  m_Name: DatabaseInstaller
+  m_Script: {fileID: 11500000, guid: 09443c846fbc420184cc60a4ca2ce917, type: 3}
+  m_Name: PlayersDataFish
   m_EditorClassIdentifier: 
-  gameConfig: {fileID: 11400000, guid: 81cce0cb7be290048a8ddb73e21fb68c, type: 2}
-  allFish: {fileID: 11400000, guid: 97221be4c47a8464d9293dcb8c2836dd, type: 2}
+  _objects:
+  - {fileID: 737347120967560423, guid: 1baf931b3264c4f5b82aa6b3342b05ec, type: 3}
