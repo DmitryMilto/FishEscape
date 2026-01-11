@@ -140,8 +140,17 @@ namespace __Project.Scripts.NewSystem.Views.Managers
             var type = typeof(T);
             if (_views.TryGetValue(type, out var cached) && cached != null)
                 return (T)cached;
-            TDebug.Log($"{_nameLog} View of type {type.Name} not found in cache.");
-            return null;
+
+            // Получаем префаб из реестра
+            var prefab = _registry.GetPrefab<T>();
+            if (prefab == null)
+                throw new Exception($"{_nameLog} No prefab found for type {type.Name}");
+
+            // Создаём экземпляр, если это ассет префаба
+            var instance = UnityEngine.Object.Instantiate(prefab, _fullScreenRoot, false);
+            _resolver.InjectGameObject(instance.gameObject);
+            _views[type] = instance;
+            return (T)instance;
         }
     }
 }

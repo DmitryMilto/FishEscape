@@ -19,7 +19,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
 #endif
         [Inject] private ViewRegistry _registry;
         [Inject] private IObjectResolver _resolver; // Добавить это поле
-        
+
         [SerializeField] private Transform _fullScreenRoot;
         [SerializeField] private Transform _popupRoot;
         [SerializeField] private Canvas _shadowCanvas;
@@ -30,13 +30,15 @@ namespace __Project.Scripts.NewSystem.Views.Managers
         private SplashProvider _splashProvider;
 
         private Dictionary<Type, AViewBase> _cache = new();
-        
+
         public void Awake()
         {
             _fullScreenProvider = new FullScreenViewProvider(_registry, _fullScreenRoot, _resolver);
-            _popupProvider = new PopupViewProvider(_registry, _fullScreenProvider, _popupRoot, _shadowCanvas, _blurCanvas, _resolver);
+            _popupProvider = new PopupViewProvider(_registry, _fullScreenProvider, _popupRoot, _shadowCanvas,
+                _blurCanvas, _resolver);
             // _splashProvider = new SplashProvider(_registry, _resolver);
         }
+
         // Открытие с анимацией
         public async UniTask<T> OpenViewAsync<T>() where T : AViewBase
         {
@@ -85,6 +87,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                     throw new Exception($"{_logName} Unknown view type: {view.ViewType}");
             }
         }
+
         public T OpenView<T>() where T : AViewBase
         {
             var type = typeof(T);
@@ -108,6 +111,7 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                     throw new Exception($"{_logName} Unknown view type: {prefab.ViewType}");
             }
         }
+
         public async UniTask CloseViewAsync<T>(T view = null) where T : AViewBase
         {
             var type = typeof(T);
@@ -152,11 +156,13 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                     view = _cache[type] as T;
                 }
             }
+
             if (view == null)
             {
                 TDebug.Log($"{_logName} View is null, cannot close.");
                 return;
             }
+
             switch (view.ViewType)
             {
                 case ETypeView.FullScreen:
@@ -168,6 +174,24 @@ namespace __Project.Scripts.NewSystem.Views.Managers
                 default:
                     throw new Exception($"{_logName} Unknown view type: {view.ViewType}");
             }
+        }
+
+        public T GetView<T>() where T : AViewBase
+        {
+            var type = typeof(T);
+            if (_cache.TryGetValue(type, out var cached) && cached != null)
+                return (T)cached;
+
+            // Пробуем получить у провайдеров
+            var fullScreen = _fullScreenProvider?.GetView<T>();
+            if (fullScreen != null)
+                return fullScreen;
+
+            var popup = _popupProvider?.GetView<T>();
+            if (popup != null)
+                return popup;
+
+            return null;
         }
     }
 }

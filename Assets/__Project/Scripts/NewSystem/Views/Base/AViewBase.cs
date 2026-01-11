@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using __Project.Scripts.NewSystem.Enums;
@@ -6,6 +7,7 @@ using __Project.Scripts.NewSystem.Views.Managers;
 using __Project.Scripts.NewSystem.Views.SubViews;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace __Project.Scripts.NewSystem.Views.Base
@@ -20,6 +22,7 @@ namespace __Project.Scripts.NewSystem.Views.Base
         [Inject] protected ViewManager Manager;
 
         [SerializeField] protected Canvas _canvas;
+        [SerializeField] protected GraphicRaycaster _canvasRaycaster;
         [SerializeField] protected CanvasGroup _canvasGroup;
         [SerializeField] private List<SubView> _subViews;
         [SerializeField] private TypeAnimation _animation = TypeAnimation.None;
@@ -29,6 +32,10 @@ namespace __Project.Scripts.NewSystem.Views.Base
         private Vector2 _defaultAnchoredPosition;
 
         public ETypeView ViewType => _viewType;
+
+        public event Action OnViewOpened;
+        public event Action OnViewClosed;
+        public event Action OnViewDestroyed;
 
         protected virtual void Awake()
         {
@@ -43,6 +50,7 @@ namespace __Project.Scripts.NewSystem.Views.Base
         {
             _canvas ??= GetComponent<Canvas>();
             _canvasGroup ??= GetComponent<CanvasGroup>();
+            _canvasRaycaster ??= GetComponent<GraphicRaycaster>();
         }
 #endif
 
@@ -59,6 +67,7 @@ namespace __Project.Scripts.NewSystem.Views.Base
             await ShowAllSubViewsAsync();
 
             _canvasGroup.interactable = true;
+            OnViewOpened?.Invoke();
         }
 
         /// <summary>
@@ -72,6 +81,7 @@ namespace __Project.Scripts.NewSystem.Views.Base
             await HideAllSubViewsAsync();
             await ViewAnimator.AnimateRectAsync(_rectTransform, _defaultAnchoredPosition, _animation, false, true,
                 _canvas.GetCancellationTokenOnDestroy());
+            OnViewClosed?.Invoke();
         }
 
         /// <summary>
@@ -109,6 +119,7 @@ namespace __Project.Scripts.NewSystem.Views.Base
             if (_subViews == null) return;
             foreach (var subView in _subViews)
                 subView?.PlayClose();
+            OnViewClosed?.Invoke();
         }
 
         /// <summary>
@@ -124,6 +135,15 @@ namespace __Project.Scripts.NewSystem.Views.Base
             if (_subViews == null) return;
             foreach (var subView in _subViews)
                 subView?.PlayOpen();
+            OnViewOpened?.Invoke();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            OnViewDestroyed?.Invoke();
+            OnViewClosed = null;
+            OnViewOpened = null;
+            OnViewDestroyed = null;
         }
     }
 }

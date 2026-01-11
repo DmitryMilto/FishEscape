@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad427d8614f4b1790072e89887c28e5, type: 3}
+  m_Name: BookPlayers
+  m_EditorClassIdentifier: 
+  _playerPages:
+  - Name: Nemo
+    Description: A tiny brave fish who loves bright corals. He swims fast and never
+      gives up. Even when danger is close, Anemonfish smiles and runs forward!
+    GameIcon: {fileID: 21300000, guid: 0ad4e83f19569cf42bdc6a1ca1d46603, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Bico
+    Description: This colorful fish dreams of seeing the whole ocean. He is quick,
+      curious, and always ready for adventure. Nothing can stop his happy swim!
+    GameIcon: {fileID: 21300000, guid: 485933621bc8b084b87666808efc2087, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Blu
+    Description: With a shiny blue face, this fish is calm and smart. He knows how
+      to dodge enemies and glide through the sea like a hero.
+    GameIcon: {fileID: 21300000, guid: fa7018215d2fb0c45ba388828503705f, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Emi
+    Description: A royal fish with strong fins and a big heart. He swims proudly
+      and protects himself with skill and courage on every long journey.
+    GameIcon: {fileID: 21300000, guid: e4aedc46629f5094da4198b1ceee1ddb, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Goldy
+    Description: "A small golden fish with sharp moves. He is fast, tricky, and loves
+      speed. Enemies blink \u2014 and he is already gone!"
+    GameIcon: {fileID: 21300000, guid: 42d7d5b2aa4db7044acd72560a3ed09d, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Melly
+    Description: Cute and gentle, this fish loves warm waters. She swims lightly
+      and avoids danger with grace, turning every run into a beautiful dance.
+    GameIcon: {fileID: 21300000, guid: 764ad83bf0d5fa34b82d724e4116bed8, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Lippy
+    Description: A funny fish with big lips and a playful soul. He swims happily
+      and surprises enemies with quick turns and lucky escapes.
+    GameIcon: {fileID: 21300000, guid: aa47df14e39cb664a8a2b0bd913e2913, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Dash
+    Description: Bright blue and full of energy! This fish is fast like the wind
+      and always ready to run farther than anyone else.
+    GameIcon: {fileID: 21300000, guid: 48f4bd074cb32634abde87f9bc6e58c3, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Sunny
+    Description: A tiny golden spark of the ocean. She swims in waves of courage
+      and proves that even small fish can go very far.
+    GameIcon: {fileID: 21300000, guid: a5736e13fd5b6934090c90cda6a7b5d4, type: 3}
+    Health: 0
+    Speed: 0
+  - Name: Bluey
+    Description: A simple blue fish with a big dream. He just wants to swim, survive,
+      and see how far he can run in the endless sea.
+    GameIcon: {fileID: 21300000, guid: f8e433f0d267ed64094a8fb8c1b4ef36, type: 3}
+    Health: 0
+    Speed: 0

@@ -50,6 +50,9 @@ MonoBehaviour:
   autoInjectGameObjects: []
   soundDatabase: {fileID: 11400000, guid: da93d19d57cf744f4812f69bef6986f6, type: 2}
   viewRegistry: {fileID: 11400000, guid: a2ed721a55222400088907764fb57096, type: 2}
+  viewManager: {fileID: 8616698680533809269, guid: 760a21b4002f64eb8813c5441e66bdcf, type: 3}
+  audioController: {fileID: 8885032401023914315, guid: e02010f9cf3e9424ab12230acba8ff81, type: 3}
   playersDataFish: {fileID: 11400000, guid: 840eb085af5ca47be903747ba898c961, type: 2}
   enemyDataFish: {fileID: 11400000, guid: e0586ce0e53c24a5c8d03ac150dfd79c, type: 2}
   boosterDataFish: {fileID: 11400000, guid: d840ab39d151f4019b32bdecf2417668, type: 2}
+  books: {fileID: 11400000, guid: 36f32e4b63f844d3684721ae45f668e9, type: 2}

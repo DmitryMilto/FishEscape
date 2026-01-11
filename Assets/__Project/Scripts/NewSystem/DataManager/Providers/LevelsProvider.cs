@@ -1,9 +1,11 @@
 using __Project.Scripts.NewSystem.Database.Fishes;
 using __Project.Scripts.NewSystem.DataManager.Levels;
 using __Project.Scripts.NewSystem.Enums;
+using JetBrains.Annotations;
 
 namespace __Project.Scripts.NewSystem.DataManager.Providers
 {
+    [UsedImplicitly]
     public class LevelsProvider
     {
 #if UNITY_EDITOR && ALL_DEBUG

@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -42,8 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -66,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -166,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3397b6142843dbbbef61026396a202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewManager: {fileID: 0}
+  audioController: {fileID: 0}
   cameraPrefab: {fileID: 1770915928}
   sceneContext: {fileID: 8982566443084147873, guid: 3ffc750b7a2664b6d8c4e9c45a129e47, type: 3}
 --- !u!1 &198187259
@@ -204,7 +201,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 4294967295
 --- !u!114 &198187261
 MonoBehaviour:
   m_ObjectHideFlags: 0

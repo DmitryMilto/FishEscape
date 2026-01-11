@@ -1,8 +1,10 @@
+using System;
 using __Project.Scripts.NewSystem.Controllers.Audios;
 using __Project.Scripts.NewSystem.DataManager;
 using __Project.Scripts.NewSystem.DataManager.Levels;
 using __Project.Scripts.NewSystem.Enums;
 using __Project.Scripts.NewSystem.Enums.Audios;
+using __Project.Scripts.NewSystem.Services;
 using __Project.Scripts.NewSystem.Views.Gameplay;
 using __Project.Scripts.NewSystem.Views.Home;
 using __Project.Scripts.NewSystem.Views.Managers;
@@ -15,7 +17,7 @@ using VContainer.Unity;
 namespace __Project.Scripts.NewSystem.Controllers.DataManager
 {
     [UsedImplicitly]
-    public class GameManager
+    public class GameManager : IDisposable
     {
 #if UNITY_EDITOR && ALL_DEBUG
         private static string _nameLog = $"<color=magenta>[{nameof(GameManager)}]</color>";
@@ -27,6 +29,9 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
         public AudioController Audio { get; private set; }
         public ViewManager ViewManager { get; private set; }
         public LevelData LevelData { get; private set; }
+        private readonly HomeRouting _homeDataService;
+
+        public event Action OnOpenHome;
 
         public GameManager(AppData appData, ViewManager viewManager, AudioController audioController)
         {
@@ -35,10 +40,15 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
             ViewManager = viewManager;
             TDebug.Log($"{_nameLog}: Creating GameManager...");
         }
+        
+        public void Dispose()
+        {
+            OnOpenHome = null;
+        }
 
         public async UniTask<bool> StartGame(int index, TypeOceans ocean)
         {
-            await ViewManager.OpenViewAsync<AViewSplash>();
+            await ViewManager.OpenViewAsync<ViewSplash>();
 
             if (ocean == TypeOceans.None)
             {
@@ -62,7 +72,7 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
 
         public async UniTask StopGame()
         {
-            await ViewManager.OpenViewAsync<AViewSplash>();
+            await ViewManager.OpenViewAsync<ViewSplash>();
             if (LevelData == null)
             {
                 TDebug.LogError($"{_nameLog}: LevelData is null. Cannot stop game.");
@@ -71,7 +81,7 @@ namespace __Project.Scripts.NewSystem.Controllers.DataManager
 
             await SceneManager.LoadSceneAsync("Home").ToUniTask();
             Audio.Play(SoundType.BackgroundMenu);
-            await ViewManager.OpenViewAsync<AViewHome>();
+            OnOpenHome?.Invoke();
         }
     }
 }

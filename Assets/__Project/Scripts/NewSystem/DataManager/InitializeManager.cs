@@ -1,8 +1,6 @@
-using System;
 using __Project.Scripts.NewSystem.Controllers.Audios;
 using __Project.Scripts.NewSystem.Enums.Audios;
-using __Project.Scripts.NewSystem.Views.Home;
-using __Project.Scripts.NewSystem.Views.Managers;
+using __Project.Scripts.NewSystem.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +11,8 @@ namespace __Project.Scripts.NewSystem.DataManager
 {
     public class InitializeManager : MonoBehaviour
     {
-        [HideInInspector][Inject] public ViewManager _viewManager;
+        [HideInInspector]
+        [Inject] public HomeRouting HomeRouting;
         [Inject] public AudioController audioController;
         
         [SerializeField] private GameObject cameraPrefab;
@@ -44,7 +43,7 @@ namespace __Project.Scripts.NewSystem.DataManager
             
             await SceneManager.LoadSceneAsync("Home", LoadSceneMode.Single);
             audioController.Play(SoundType.BackgroundMenu);
-            var home = await _viewManager.OpenViewAsync<AViewHome>();
+            HomeRouting.OpenHome();
         }
     }
 }

@@ -2,11 +2,13 @@ using __Project.Scripts.NewSystem.Controllers.Audios;
 using __Project.Scripts.NewSystem.Controllers.DataManager;
 using __Project.Scripts.NewSystem.Database;
 using __Project.Scripts.NewSystem.Database.Audios;
+using __Project.Scripts.NewSystem.Database.Books;
 using __Project.Scripts.NewSystem.Database.Fishes;
 using __Project.Scripts.NewSystem.Database.View;
 using __Project.Scripts.NewSystem.DataManager;
 using __Project.Scripts.NewSystem.DataManager.Providers;
 using __Project.Scripts.NewSystem.Enums;
+using __Project.Scripts.NewSystem.Services;
 using __Project.Scripts.NewSystem.Views.Managers;
 using UnityEngine;
 using VContainer;
@@ -14,53 +16,64 @@ using VContainer.Unity;
 
 namespace __Project.Scripts.NewSystem.GameLifes
 {
-    public class GameLifetimeScope: LifetimeScope
+    public class GameLifetimeScope : LifetimeScope
     {
         [SerializeField] private SoundDatabase soundDatabase;
         [SerializeField] private ViewRegistry viewRegistry;
-        
-        [Header("ScriptableObjects")]
-        [SerializeField] private PlayersDataFish playersDataFish;
+
+        [Header("Game Objects Injection")] [SerializeField]
+        private ViewManager viewManager;
+
+        [SerializeField] private AudioController audioController;
+
+        [Header("ScriptableObjects")] [SerializeField]
+        private PlayersDataFish playersDataFish;
+
         [SerializeField] private EnemyDataFish enemyDataFish;
         [SerializeField] private BoosterDataFish boosterDataFish;
+        [SerializeField] private dbBooks books;
+
         protected override void Configure(IContainerBuilder builder)
         {
             base.Configure(builder);
 
             // Регистрируем ViewRegistry из ресурсов
-            builder.RegisterInstance(viewRegistry);
-
-            // Регистрируем ViewManager как singleton-компонент
-            var viewManagerPrefab = Resources.Load<ViewManager>("ViewManager");
-            builder.RegisterComponentInNewPrefab<ViewManager>(viewManagerPrefab, Lifetime.Singleton)
-                .DontDestroyOnLoad();
-
-            // Загрузка и регистрация AudioController через ресурсы
-            var audioControllerPrefab = Resources.Load<AudioController>("AudioController");
-            builder.RegisterComponentInNewPrefab<AudioController>(audioControllerPrefab, Lifetime.Singleton)
-                .DontDestroyOnLoad()
-                .AsImplementedInterfaces();
+            InjectScriptableObjects(builder);
+            
+            RegisterGameObjects(builder, viewManager);
+            RegisterGameObjects(builder, audioController);
 
             builder.Register<AppData>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<LevelsProvider>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<GameManager>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            
-            var fishBookDatabase = Resources.Load<FishBookDatabase>("FishBookDatabase");
-            builder.RegisterInstance(fishBookDatabase); // ScriptableObject с данными
-            builder.Register<FishBookManager>(Lifetime.Singleton).AsSelf();
-            
-            builder.Register<IFileManager, FileManager>(Lifetime.Singleton);
+            builder.Register<HomeRouting>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
-            InjectScriptableObjects(builder);
+            builder.Register<IFileManager, FileManager>(Lifetime.Singleton);
             
-            builder.RegisterInstance(soundDatabase);
+            RegisterServices(builder);
+        }
+
+        private void RegisterGameObjects<T>(IContainerBuilder builder, T gameObject) where T : MonoBehaviour
+        {
+            builder.RegisterComponentInNewPrefab<T>(gameObject, Lifetime.Singleton)
+                .DontDestroyOnLoad()
+                .AsImplementedInterfaces();
         }
 
         private void InjectScriptableObjects(IContainerBuilder builder)
         {
+            builder.RegisterInstance(viewRegistry);
+            builder.RegisterInstance(soundDatabase);
             builder.RegisterInstance(playersDataFish);
             builder.RegisterInstance(enemyDataFish);
             builder.RegisterInstance(boosterDataFish);
+            builder.RegisterInstance(books);
+        }
+
+        private void RegisterServices(IContainerBuilder builder)
+        {
+            builder.Register<HomeDataService>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<BookDataService>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
         }
     }
 }

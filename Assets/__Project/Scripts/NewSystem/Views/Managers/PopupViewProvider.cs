@@ -213,7 +213,21 @@ namespace __Project.Scripts.NewSystem.Views.Managers
 
         public T GetView<T>() where T : AViewBase
         {
-            return _registry.GetPrefab<T>();
+            // Получаем префаб из реестра
+            var prefab = _registry.GetPrefab<T>();
+            if (prefab == null)
+                throw new Exception($"{_nameLog} No prefab found for type {typeof(T).Name}");
+
+            // Если это ассет префаба (не находится в сцене) — создаём экземпляр
+            if (!prefab.gameObject.scene.IsValid())
+            {
+                var instance = UnityEngine.Object.Instantiate(prefab, _popupRoot, false);
+                _resolver.InjectGameObject(instance.gameObject);
+                return instance;
+            }
+
+            // Если уже есть экземпляр на сцене — возвращаем его
+            return prefab;
         }
 
         private void SetSortingOrder(PopupBase popup, int order)
